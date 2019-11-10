@@ -100,12 +100,15 @@
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                                aria-haspopup="false" aria-expanded="false">
+                               @auth
+                                   {{Auth::user()->name}}
+                               @endauth
                                 <img src=" {{asset('assets/images/users/avatar-1.jpg')}} " alt="user" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                                 <!-- item-->
                                 <div class="dropdown-item noti-title">
-                                    <h5 class="text-overflow"><small>Welcome ! John</small> </h5>
+                                    <h5 class="text-overflow"><small>Welcome ! @auth{{Auth::user()->name}}@endauth</small> </h5>
                                 </div>
 
                                 <!-- item-->
