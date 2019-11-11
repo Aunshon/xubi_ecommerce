@@ -34,7 +34,7 @@
                       <div class="modal-body">
                         <button data-dismiss="modal" class="close">&times;</button>
                         <h4>Add new category</h4>
-                      <form action="{{ Route('saveNewProduct') }}" method="POST">
+                      <form enctype="multipart/form-data" action="{{ Route('saveNewProduct') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label>Product Name</label>
@@ -70,6 +70,16 @@
                             <label>product Point</label>
                             <input name="point" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Product Point">
                         </div>
+                        <div class="wrapper">
+                                <div class="box">
+                                        <div class="js--image-preview"></div>
+                                        <div class="upload-options">
+                                          <label>
+                                            <input name="photo" type="file" class="image-upload" accept="image/*" />
+                                          </label>
+                                        </div>
+                                      </div>
+                        </div>
                         <button type="submit" class="btn btn-primary col-12 text-center">Add</button>
                     </form>
                       </div>
@@ -89,6 +99,7 @@
                             <th scope="col">Description</th>
                             <th scope="col">Activation</th>
                             <th scope="col">Point</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -108,16 +119,26 @@
                                 </td>
                             <th scope="row">{{$item->point}}</th>
                             <td>
+                                <img src=" {{asset('uploads/product')}}/{{$item->photo}} " width="50px" alt="Photo Link Not Found">
+                            </td>
+                            <td>
                                 <a class="btn btn-primary" href=" {{__('editProduct')}}/{{$item->id}} "><i class="fa fa-edit"></i></a>
                                 {{-- <a class="btn btn-danger" href=" {{__("deleteCategory")}}/{{$item->id}} " ><i class="fa fa-trash"></i></a> --}}
                                 <button onclick="myFunction({{$item->id}})" class="btn btn-danger" ><i class="fa fa-trash"></i></button>
                             </td>
                             </tr>
                             @empty
-                            <tr><td>No data available</td></tr>
+                            <tr><td>
+                                <div class="row">
+                                    <div class="alert alert-danger" role="alert">
+                                        No Data Available
+                                    </div>
+                                </div>
+                            </td></tr>
                             @endforelse
                         </tbody>
                         </table>
+                        {{ $allproduct->links() }}
                 </div>
 
 

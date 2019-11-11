@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->longText('description')->default('No Description Given');
             $table->integer('point')->default(0);
             $table->integer('activation')->default(1);
+            $table->string('photo')->default('default.png');
             $table->timestamps();
         });
     }

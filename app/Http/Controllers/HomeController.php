@@ -6,6 +6,7 @@ use App\category;
 use App\product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class HomeController extends Controller
 {
@@ -102,22 +103,26 @@ class HomeController extends Controller
     function manage_product()
     {
         $allcategory = category::all();
-        $allproduct = product::all();
+        $allproduct = product::paginate(5);
+        // $allproduct = product::all();
         return view('deshboard.manage_product',compact('allcategory','allproduct'));
     }
     function saveNewProduct(Request $request)
     {
+
         // print_r($request->all());
+        // echo $request->photo;
         $request->validate([
             'product_name' => 'required',
             'product_price' => 'required|numeric',
-            'category' => 'required',
-            'activation' => 'required',
+            'category' => 'required|numeric',
+            'activation' => 'required|numeric',
             'description' => 'required',
-            'point' => 'required',
+            'point' => 'required|numeric',
+            'photo' => 'required',
         ]);
 
-        product::insert([
+        $lastId = product::insertGetId([
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
             'category' => $request->category,
@@ -126,6 +131,15 @@ class HomeController extends Controller
             'point' => $request->point,
             'created_at' => Carbon::now(),
         ]);
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo;
+            $photoName = $lastId.'.'.$photo->getClientOriginalExtension();
+            Image::make($photo)->resize(400, 450)->save(base_path( "public/uploads/product/" . $photoName),100);
+            product::findOrFail($lastId)->update([
+                'photo' => $photoName,
+            ]);
+        }
 
         return back()->with('greenStatus','Product Added Successfully 👍');
     }
