@@ -120,7 +120,7 @@ class HomeController extends Controller
             'category' => 'required|numeric',
             'activation' => 'required|numeric',
             'description' => 'required',
-            'point' => 'required|numeric',
+            'point' => 'required|numeric|max:100|min:1',
             // 'photo' => 'required',
         ]);
 

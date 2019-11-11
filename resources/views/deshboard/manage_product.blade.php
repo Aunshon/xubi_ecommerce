@@ -38,11 +38,11 @@
                         @csrf
                         <div class="form-group">
                             <label>Product Name</label>
-                            <input name="product_name" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter product name">
+                            <input value=" {{old('product_name')}} " name="product_name" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter product name">
                         </div>
                         <div class="form-group">
                             <label>Product Price</label>
-                            <input name="product_price" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Enter product price">
+                            <input value=" {{old('product_price')}} " name="product_price" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Enter product price">
                         </div>
                         <div class="form-group">
                             <label>Select category</label>
@@ -64,11 +64,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <textarea name="description" class="form-control" placeholder="Write discription"></textarea>
+                            <textarea value=" {{old('description')}} " name="description" class="form-control" placeholder="Write discription"></textarea>
                         </div>
                         <div class="form-group">
                             <label>product Point</label>
-                            <input name="point" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Product Point">
+                            <input value=" {{old('point')}} " name="point" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Product Point">
                         </div>
                         <div class="wrapper">
                                 <div class="box">
