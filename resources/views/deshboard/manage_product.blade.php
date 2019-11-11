@@ -25,7 +25,7 @@
 
 
                 <!--Trigger-->
-                <a class="btn btn-primary" href="#" data-target="#login" data-toggle="modal"><i class="fa fa-plus"></i> New Category</a>
+                <a class="btn btn-primary" href="#" data-target="#login" data-toggle="modal"><i class="fa fa-plus"></i> New Product</a>
 
                 <div id="login" class="modal fade" role="dialog">
                   <div class="modal-dialog">
@@ -152,12 +152,20 @@
 
 
 
+             @section('addNewScript')
+                {{-- <script src="{{ asset('assets/js/addCategory.js') }}"></script> --}}
+                <script>
+                    function myFunction(id) {
+                    var txt;
+                    var r = confirm("Make sure you want to delete ?!");
+                        if (r == true) {
+                            location.href = "{{__("deleteproduct")}}/"+id;
+                            // alert("{{__("deletecategory")}}/"+id);
+                        }
+                    }
+                </script>
 
-        @section('addNewScript')
-
-
-
-        @endsection
+            @endsection
 
 
 

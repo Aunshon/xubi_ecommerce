@@ -33,6 +33,7 @@ class HomeController extends Controller
     {
         return view('deshboard.index');
     }
+    // Category.............................................................
     function manage_categories()
     {
         $allCaregories = category::all();
@@ -96,10 +97,11 @@ class HomeController extends Controller
             'activation' => $request->activation,
             'aditional_information' => $request->aditional_information,
             'updated_at' => Carbon::now(),
-        ]);
+            ]);
 
         return back()->with('greenStatus','Category Updated Successfully 👍');
     }
+    //Product..............................................................................
     function manage_product()
     {
         $allcategory = category::all();
@@ -119,7 +121,7 @@ class HomeController extends Controller
             'activation' => 'required|numeric',
             'description' => 'required',
             'point' => 'required|numeric',
-            'photo' => 'required',
+            // 'photo' => 'required',
         ]);
 
         $lastId = product::insertGetId([
@@ -138,9 +140,39 @@ class HomeController extends Controller
             Image::make($photo)->resize(400, 450)->save(base_path( "public/uploads/product/" . $photoName),100);
             product::findOrFail($lastId)->update([
                 'photo' => $photoName,
+                ]);
+            }
+
+            return back()->with('greenStatus','Product Added Successfully 👍');
+    }
+
+    function changeProductActivation($id,$activation)
+    {
+        if ($activation == 1) {
+            product::findOrFail($id)->update([
+                    'activation' => 0
             ]);
         }
-
-        return back()->with('greenStatus','Product Added Successfully 👍');
+        else {
+            product::findOrFail($id)->update([
+                'activation' => 1
+            ]);
+            }
+        return back()->with('greenStatus','Product Aaticatjion Changed');
+    }
+    function deleteproduct($id)
+    {
+        if (product::findOrFail($id)->photo == 'default.png') {
+            product::findOrFail($id)->delete();
+            return back()->with('greenStatus','Product Deleted');
+        }
+        else {
+            // echo "real Photo";
+            $photo = product::findOrFail($id)->photo;
+            // echo $photo;
+            unlink(base_path("public/uploads/product/".$photo));
+            product::findOrFail($id)->delete();
+            return back()->with('greenStatus','Product Deleted');
+        }
     }
 }
