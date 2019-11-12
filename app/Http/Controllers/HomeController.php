@@ -158,7 +158,7 @@ class HomeController extends Controller
                 'activation' => 1
             ]);
             }
-        return back()->with('greenStatus','Product Aaticatjion Changed');
+        return back()->with('greenStatus','Product Activation Changed');
     }
     function deleteproduct($id)
     {
@@ -174,5 +174,49 @@ class HomeController extends Controller
             product::findOrFail($id)->delete();
             return back()->with('greenStatus','Product Deleted');
         }
+    }
+    function editProduct ($productId)
+    {
+        // echo $productId;
+        $productInfo = product::findOrFail($productId);
+        $allcategory = category::all();
+        // echo $productInfo;
+        return view('deshboard.editProduct',compact('allcategory','productInfo'));
+    }
+    function updateProduct(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'product_name' => 'required',
+            'product_price' => 'required|numeric',
+            'category' => 'required|numeric',
+            'activation' => 'required|numeric',
+            'description' => 'required',
+            'point' => 'required|numeric|min:1|max:100',
+        ]);
+        product::findOrFail($request->id)->update([
+            'product_name' => $request->product_name,
+            'product_price' => $request->product_price,
+            'category' => $request->category,
+            'activation' => $request->activation,
+            'description' => $request->description,
+            'point' => $request->point,
+            'updated_at' => Carbon::now(),
+        ]);
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo;
+            $photoName = $request->id.'.'.$photo->getClientOriginalExtension();
+            if (product::findOrFail($request->id)->photo == 'default.png') {
+                Image::make($photo)->resize(400, 450)->save(base_path( "public/uploads/product/" . $photoName),100);
+                product::findOrFail($request->id)->update([
+                    'photo' => $photoName,
+                ]);
+            }
+            else {
+                unlink(base_path("public/uploads/product/".$photoName));
+                Image::make($photo)->resize(400, 450)->save(base_path( "public/uploads/product/" . $photoName),100);
+            }
+        }
+        return back()->with('greenStatus','Product Updated');
     }
 }

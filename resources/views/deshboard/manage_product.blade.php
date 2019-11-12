@@ -78,7 +78,7 @@
                                             <input name="photo" type="file" class="image-upload" accept="image/*" />
                                           </label>
                                         </div>
-                                      </div>
+                                </div>
                         </div>
                         <button type="submit" class="btn btn-primary col-12 text-center">Add</button>
                     </form>

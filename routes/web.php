@@ -33,3 +33,5 @@ Route::get('/manage_product', 'HomeController@manage_product')->name('manage_pro
 Route::post('/saveNewProduct', 'HomeController@saveNewProduct')->name('saveNewProduct');
 Route::get('/changeProductActivation/{pId}/{activaiton}', 'HomeController@changeProductActivation');
 Route::get('/deleteproduct/{pId}', 'HomeController@deleteproduct');
+Route::get('/editProduct/{categoryId}', 'HomeController@editProduct');
+Route::post('/updateProduct', 'HomeController@updateProduct')->name('updateProduct');
