@@ -248,4 +248,24 @@ class HomeController extends Controller
         ]);
         return back()->with('greenStatus','New saler Added');
     }
+    function salerApproval($id,$approavl)
+    {
+        User::findOrFail($id)->update([
+            'approval'=>$approavl,
+        ]);
+        return back();
+        // if ($approavl == 0) {
+        //     User::findOrFail($id)->update([
+        //         'approval'=>$approavl,
+        //     ]);
+        // }
+        // elseif ($approavl == 1) {
+        //     User::findOrFail($id)->update([
+
+        //     ]);
+        // }
+        // else {
+
+        // }
+    }
 }

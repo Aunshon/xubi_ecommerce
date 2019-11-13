@@ -40,3 +40,4 @@ Route::post('/updateProduct', 'HomeController@updateProduct')->name('updateProdu
 //Saler....................................................................................
 Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
 Route::post('/addNewSaler', 'HomeController@addNewSaler')->name('addNewSaler');
+Route::get('/salerApproval/{userid}/{approval}','HomeController@salerApproval')->name('salerApproval');

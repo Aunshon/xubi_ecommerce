@@ -102,11 +102,55 @@
                     </td>
                     <td>
                         @if ($item->approval == 0)
-                            <span class="label label-danger">Banded</span>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <span class="caret"><span class="label label-danger">Banded</span></span>
+                           </a>
+
+                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                               <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                   {{ __('Approve') }}
+                               </a>
+                               <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                   {{ __('Waiting') }}
+                               </a>
+                               <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                   {{ __('Band') }}
+                               </a>
+                           </div>
                         @elseif($item->approval == 2)
-                            <span class="label label-success">Approved</span>
+                                <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <span class="caret"><span class="label label-success">Approved</span></span>
+                                </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1">
+                                <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                    {{ __('Approve') }}
+                                </a>
+                                <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                    {{ __('Waiting') }}
+                                </a>
+                                <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                    {{ __('Band') }}
+                                </a>
+                            </div>
                         @else
-                            <span class="label label-warning">Waiting</span>
+
+                                <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                     <span class="caret"><span class="label label-warning">Waiting</span></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
+                                    <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                        {{ __('Approve') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                        {{ __('Waiting') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                        {{ __('Band') }}
+                                    </a>
+                                </div>
+
                         @endif
                     </td>
                     <td>{{$item->created_at->diffForHumans()}}</td>
