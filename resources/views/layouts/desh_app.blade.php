@@ -194,10 +194,13 @@
                                     <li><a href=" {{Route('manage_product')}} ">Manage Product</a></li>
                                 </ul>
                             </li>
-
                             <li>
-                                <a href="tickets.html"><i class="fi-help"></i><span class="badge badge-danger pull-right">New</span> <span> Tickets </span></a>
+                                <a href="javascript: void(0);"><i class="fi-help"></i> <span> Saler </span><span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href=" {{Route('mysaler')}} ">All Salers</a></li>
+                                </ul>
                             </li>
+
 
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-box"></i><span> Icons </span> <span class="menu-arrow"></span></a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\category;
 use App\product;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -144,7 +145,8 @@ class HomeController extends Controller
                 ]);
             }
 
-            return back()->with('greenStatus','Product Added Successfully 👍');
+            // return back()->with('greenStatus','Product Added Successfully 👍');
+            return redirect('manage_product')->with('greenStatus','Product Added Successfully 👍');
     }
 
     function changeProductActivation($id,$activation)
@@ -219,5 +221,31 @@ class HomeController extends Controller
             }
         }
         return back()->with('greenStatus','Product Updated');
+    }
+    ////.......Saler......................................................
+    function mysaler()
+    {
+        $allSler = User::where('role',2)->get();
+        return view('deshboard.mysaler',compact('allSler'));
+    }
+    function addNewSaler(Request $request)
+    {
+        // print_r($request->all());
+        $request->validate([
+            'user_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'approval' => 'required|integer',
+        ]);
+
+        User::insert([
+            'name' =>$request->user_name,
+            'email' =>$request->email,
+            'password' =>$request->password,
+            'role' => 2,
+            'approval' =>$request->approval,
+            'created_at' => Carbon::now(),
+        ]);
+        return back()->with('greenStatus','New saler Added');
     }
 }

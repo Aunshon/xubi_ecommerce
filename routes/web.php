@@ -15,8 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes();
-Auth::routes(['verify' => true]);
+Auth::routes();
+// Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -36,3 +36,7 @@ Route::get('/changeProductActivation/{pId}/{activaiton}', 'HomeController@change
 Route::get('/deleteproduct/{pId}', 'HomeController@deleteproduct');
 Route::get('/editProduct/{categoryId}', 'HomeController@editProduct');
 Route::post('/updateProduct', 'HomeController@updateProduct')->name('updateProduct');
+
+//Saler....................................................................................
+Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
+Route::post('/addNewSaler', 'HomeController@addNewSaler')->name('addNewSaler');
