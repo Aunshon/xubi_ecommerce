@@ -268,4 +268,9 @@ class HomeController extends Controller
 
         // }
     }
+    function deleteSaler($userId)
+    {
+        User::findOrFail($userId)->delete();
+        return back();
+    }
 }
