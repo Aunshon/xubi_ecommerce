@@ -83,6 +83,7 @@
                     <th scope="col">role</th>
                     <th scope="col">approval</th>
                     <th scope="col">Account Created</th>
+                    <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -154,6 +155,7 @@
                         @endif
                     </td>
                     <td>{{$item->created_at->diffForHumans()}}</td>
+                    <td><a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this saler?');" href="{{__('deleteSaler')}}/{{$item->id}}">Delete</a></td>
                     </tr>
                     @empty
                     <tr><td>

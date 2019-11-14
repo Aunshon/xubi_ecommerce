@@ -241,7 +241,7 @@ class HomeController extends Controller
         User::insert([
             'name' =>$request->user_name,
             'email' =>$request->email,
-            'password' =>$request->password,
+            'password' =>bcrypt($request->password),
             'role' => 2,
             'approval' =>$request->approval,
             'created_at' => Carbon::now(),
