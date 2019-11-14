@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -107,7 +108,7 @@ class HomeController extends Controller
     function manage_product()
     {
         $allcategory = category::all();
-        $allproduct = product::paginate(5);
+        $allproduct = product::where('user_id',Auth::user()->id)->paginate(5);
         // $allproduct = product::all();
         return view('deshboard.manage_product',compact('allcategory','allproduct'));
     }
@@ -122,11 +123,12 @@ class HomeController extends Controller
             'category' => 'required|numeric',
             'activation' => 'required|numeric',
             'description' => 'required',
-            'point' => 'required|numeric|max:100|min:1',
+            'point' => 'required|numeric|max:100|min:0',
             // 'photo' => 'required',
         ]);
 
         $lastId = product::insertGetId([
+            'user_id' => Auth::user()->id,
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
             'category' => $request->category,
@@ -272,5 +274,37 @@ class HomeController extends Controller
     {
         User::findOrFail($userId)->delete();
         return back();
+    }
+    function allSalerProduct()
+    {
+        $allproduct = product::where('user_id','!=',Auth::user()->id)->paginate(20);
+        // echo $allproduct;
+        return view('deshboard.allSalerProduct',compact('allproduct'));
+    }
+    function allAdmins()
+    {
+        // $allAdmins = User::where('role',3)->where('id','!=',Auth::user()->id)->get();
+        $allAdmins = User::where('role',3)->get();
+        // echo $allAdmins;
+        return view('deshboard.allAdmins',compact('allAdmins'));
+    }
+    function addNewAdmin(Request $request)
+    {
+        $request->validate([
+            'user_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'approval' => 'required|integer',
+        ]);
+
+        User::insert([
+            'name' =>$request->user_name,
+            'email' =>$request->email,
+            'password' =>bcrypt($request->password),
+            'role' => 3,
+            'approval' =>$request->approval,
+            'created_at' => Carbon::now(),
+        ]);
+        return back()->with('greenStatus','New Admin Added');
     }
 }

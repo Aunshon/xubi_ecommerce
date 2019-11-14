@@ -42,3 +42,7 @@ Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
 Route::post('/addNewSaler', 'HomeController@addNewSaler')->name('addNewSaler');
 Route::get('/salerApproval/{userid}/{approval}','HomeController@salerApproval')->name('salerApproval');
 Route::get('/deleteSaler/{userid}','HomeController@deleteSaler')->name('deleteSaler');
+Route::get('/allSalerProduct','HomeController@allSalerProduct')->name('allSalerProduct');
+// New Admin..........
+Route::get('/allAdmins','HomeController@allAdmins')->name('allAdmins');
+Route::post('/addNewAdmin', 'HomeController@addNewAdmin')->name('addNewAdmin');

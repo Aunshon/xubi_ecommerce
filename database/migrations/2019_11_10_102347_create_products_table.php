@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id')->default(1);
             $table->string('product_name')->default('No Name');
             $table->integer('category')->default(1);
             $table->integer('product_price')->default(00);

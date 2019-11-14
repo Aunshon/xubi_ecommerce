@@ -8,7 +8,7 @@
 </li>
 @endsection
 @section('pageHeading')
-    All My Saler
+Manage Products
 @endsection
 @section('desh_content')
 
@@ -20,12 +20,21 @@
 
 
 
-<div class="col-10">
+<div class="col-12">
+
+
+
+
+
+
+
+
+
 
 
 
         <!--Trigger-->
-        <a class="btn btn-primary" href="#" data-target="#login" data-toggle="modal"><i class="fa fa-plus"></i> New Saler</a>
+        <a class="btn btn-primary" href="#" data-target="#login" data-toggle="modal"><i class="fa fa-plus"></i> New Admin</a>
 
         <div id="login" class="modal fade" role="dialog">
           <div class="modal-dialog">
@@ -33,8 +42,8 @@
             <div class="modal-content">
               <div class="modal-body">
                 <button data-dismiss="modal" class="close">&times;</button>
-                <h4>Add new Saler</h4>
-              <form enctype="multipart/form-data" action="{{ Route('addNewSaler') }}" method="POST">
+                <h4>Add new Admin</h4>
+              <form enctype="multipart/form-data" action="{{ Route('addNewAdmin') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label>User Name</label>
@@ -46,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <label>Default Password</label>
-                    <input value="salerDefPNew" name="password" type="text" class="form-control"  aria-describedby="emailHelp" readonly>
+                    <input value="adminDefPNew" name="password" type="text" class="form-control"  aria-describedby="emailHelp" readonly>
                 </div>
                 {{-- <div class="form-group">
                     <label>Select category</label>
@@ -73,6 +82,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
         <div>
                 <table class="table">
                 <thead class="table-dark">
@@ -87,7 +105,79 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($allSler as $item)
+                    @forelse ($allAdmins as $item)
+                    @if ($item->id == Auth::user()->id)
+
+                    <tr class="table-success">
+                    <td>{{$item->id}}</td>
+                    <td>{{$item->name}} (You)</td>
+                    <td>{{$item->email}}</td>
+                    <td>
+                        @if ($item->role == 2)
+                            <p class="label label-muted">Saler</p>
+                        @elseif($item->role == 3)
+                            <p class="label label-muted">Admin</p>
+                        @else
+                            {{-- <p class="label label-danger">Customer</p> --}}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->approval == 0)
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <span class="caret"><span class="label label-danger">Banded</span></span>
+                           </a>
+
+                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                               <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                   {{ __('Approve') }}
+                               </a>
+                               <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                   {{ __('Waiting') }}
+                               </a>
+                               <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                   {{ __('Band') }}
+                               </a>
+                           </div>
+                        @elseif($item->approval == 2)
+                                <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <span class="caret"><span class="label label-success">Approved</span></span>
+                                </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1">
+                                <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                    {{ __('Approve') }}
+                                </a>
+                                <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                    {{ __('Waiting') }}
+                                </a>
+                                <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                    {{ __('Band') }}
+                                </a>
+                            </div>
+                        @else
+
+                                <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                     <span class="caret"><span class="label label-warning">Waiting</span></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
+                                    <a class="dropdown-item" href=" {{__('salerApproval')}}/{{$item->id}}/2 ">
+                                        {{ __('Approve') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/1">
+                                        {{ __('Waiting') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{__('salerApproval')}}/{{$item->id}}/0">
+                                        {{ __('Band') }}
+                                    </a>
+                                </div>
+
+                        @endif
+                    </td>
+                    <td>{{$item->created_at->diffForHumans()}}</td>
+                    <td><span class="label label-success">Loged In</span></td>
+                    </tr>
+                    @elseif($item->id != Auth::user()->id)
                     <tr>
                     <td>{{$item->id}}</td>
                     <td>{{$item->name}}</td>
@@ -95,7 +185,7 @@
                     <td>
                         @if ($item->role == 2)
                             <p class="label label-muted">Saler</p>
-                        @elseif($item->approval == 3)
+                        @elseif($item->role == 3)
                             <p class="label label-muted">Admin</p>
                         @else
                             {{-- <p class="label label-danger">Customer</p> --}}
@@ -157,6 +247,7 @@
                     <td>{{$item->created_at->diffForHumans()}}</td>
                     <td><a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this saler?');" href="{{__('deleteSaler')}}/{{$item->id}}">Delete</a></td>
                     </tr>
+                    @endif
                     @empty
                     <tr><td>
                         <div class="row">
@@ -170,41 +261,15 @@
                 </table>
                 {{-- {{ $allproduct->links() }} --}}
         </div>
-        <ul>
-            <li>Role 1 costomer</li>
-            <li>Role 2 Saler</li>
-            <li>Role 3 Admin</li>
-            <br>
-            <li>Approval 0 Account banded</li>
-            <li>Approval 1 Account waiting for saler</li>
-            <li>Approval 2 Account Approved for saler</li>
-        </ul>
 
 
 
-        </div>
+    </div>
 
 
 
 
 
-
-
-
-     @section('addNewScript')
-        {{-- <script src="{{ asset('assets/js/addCategory.js') }}"></script> --}}
-        <script>
-            function myFunction(id) {
-            var txt;
-            var r = confirm("Make sure you want to delete ?!");
-                if (r == true) {
-                    location.href = "{{__("deleteproduct")}}/"+id;
-                    // alert("{{__("deletecategory")}}/"+id);
-                }
-            }
-        </script>
-
-    @endsection
 
 
 

@@ -984,6 +984,7 @@ return array(
     'Illuminate\\Container\\ContextualBindingBuilder' => $vendorDir . '/laravel/framework/src/Illuminate/Container/ContextualBindingBuilder.php',
     'Illuminate\\Container\\EntryNotFoundException' => $vendorDir . '/laravel/framework/src/Illuminate/Container/EntryNotFoundException.php',
     'Illuminate\\Container\\RewindableGenerator' => $vendorDir . '/laravel/framework/src/Illuminate/Container/RewindableGenerator.php',
+    'Illuminate\\Container\\Util' => $vendorDir . '/laravel/framework/src/Illuminate/Container/Util.php',
     'Illuminate\\Contracts\\Auth\\Access\\Authorizable' => $vendorDir . '/laravel/framework/src/Illuminate/Contracts/Auth/Access/Authorizable.php',
     'Illuminate\\Contracts\\Auth\\Access\\Gate' => $vendorDir . '/laravel/framework/src/Illuminate/Contracts/Auth/Access/Gate.php',
     'Illuminate\\Contracts\\Auth\\Authenticatable' => $vendorDir . '/laravel/framework/src/Illuminate/Contracts/Auth/Authenticatable.php',

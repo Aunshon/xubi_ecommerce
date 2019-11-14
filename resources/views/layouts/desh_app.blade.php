@@ -181,42 +181,49 @@
                                     <li><a href="dashboard-2.html">Dashboard 2</a></li>
                                 </ul> --}}
                             </li>
+                            @if (Auth::user()->role == 3 || Auth::user()->role == 2)
+
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-target"></i> <span> Category </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('manage_categories')}} ">Manage Categories</a></li>
                                 </ul>
                             </li>
+                            @endif
 
+                            @if (Auth::user()->role == 3)
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> Product </span> <span class="menu-arrow"></span></a>
+                                <a href=" {{Route('allAdmins')}} "><i class="fi-marquee-plus"></i> <span> All Admins </span> <span class="menu-arrow"></span></a>
+                                {{-- <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href=" {{Route('manage_product')}} ">Manage My Product</a></li>
+                                </ul> --}}
+                            </li>
+                            @endif
+                            @if (Auth::user()->role == 3 || Auth::user()->role == 2)
+                            <li>
+                                <a href="javascript: void(0);"><i class="fi-briefcase"></i> <span> My Product </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href=" {{Route('manage_product')}} ">Manage Product</a></li>
+                                    <li><a href=" {{Route('manage_product')}} ">Manage My Product</a></li>
                                 </ul>
                             </li>
+                            @endif
+                            @if (Auth::user()->role == 3)
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-help"></i> <span> Saler </span><span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('mysaler')}} ">All Salers</a></li>
                                 </ul>
                             </li>
+                            @endif
 
-
+                            @if (Auth::user()->role == 3)
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-box"></i><span> Icons </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript: void(0);"><i class="fi-box"></i><span> All Saler Product </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="icons-colored.html">Colored Icons</a></li>
-                                    <li><a href="icons-materialdesign.html">Material Design</a></li>
-                                    <li><a href="icons-dripicons.html">Dripicons</a></li>
-                                    <li><a href="icons-fontawesome.html">Font awesome</a></li>
-                                    <li><a href="icons-feather.html">Feather Icons</a></li>
-                                    <li><a href="icons-simple-line.html">Simple line Icons</a></li>
-                                    <li><a href="icons-flags.html">Flag Icons</a></li>
-                                    <li><a href="icons-file.html">File Icons</a></li>
-                                    <li><a href="icons-pe7.html">PE7 Icons</a></li>
-                                    <li><a href="icons-typicons.html">Typicons</a></li>
+                                    <li><a href=" {{Route('allSalerProduct')}} "> View Saler Product</a></li>
                                 </ul>
                             </li>
+                            @endif
 
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-bar-graph-2"></i><span> Graphs </span> <span class="menu-arrow"></span></a>
