@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use App\category;
 use App\product;
 use App\User;
@@ -238,6 +239,7 @@ class HomeController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'approval' => 'required|integer',
+            'company_or_industry' => 'required',
         ]);
 
         User::insert([
@@ -245,6 +247,7 @@ class HomeController extends Controller
             'email' =>$request->email,
             'password' =>bcrypt($request->password),
             'role' => 2,
+            'company_or_industry' => $request->company_or_industry,
             'approval' =>$request->approval,
             'created_at' => Carbon::now(),
         ]);
@@ -306,5 +309,83 @@ class HomeController extends Controller
             'created_at' => Carbon::now(),
         ]);
         return back()->with('greenStatus','New Admin Added');
+    }
+    function allBrand()
+    {
+        $allBrands = Brand::all();
+        return view('deshboard.allBrand',compact('allBrands'));
+    }
+    function saveNewBrand(Request $request)
+    {
+        // print_r($request->all());
+        $request->validate([
+            'brand_name' => 'required',
+            'activation' => 'required',
+            'photo' => 'required',
+        ]);
+        $lastId = Brand::insertGetId([
+            'brand_name' => $request->brand_name,
+            'activation' => $request->activation,
+            'request' => 1,
+            'approvedby' => Auth::user()->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->photo;
+            $photoName = $lastId.'.'.$photo->getClientOriginalExtension();
+            Image::make($photo)->resize(400, 450)->save(base_path( "public/uploads/brand/" . $photoName),100);
+            Brand::findOrFail($lastId)->update([
+                'photo' => $photoName,
+                ]);
+            }
+
+            // return back()->with('greenStatus','Product Added Successfully 👍');
+            return back()->with('greenStatus','Brand Added Successfully 👍');
+
+    }
+    function brandRequest()
+    {
+        $allBrands = Brand::Where('request',0)->get();
+        return view('deshboard.brandRequest',compact('allBrands'));
+    }
+    function brandRequestChange($id,$status)
+    {
+        Brand::findOrFail($id)->update([
+            'request' => 1,
+            'approvedby' => Auth::user()->id,
+
+        ]);
+        return redirect('allBrand');
+    }
+    function brandActivation($id,$status)
+    {
+        if ($status == 1) {
+            Brand::findOrFail($id)->update([
+                'activation' => 1,
+                ]);
+                return back();
+        }
+        else {
+            Brand::findOrFail($id)->update([
+                'activation' => 0,
+            ]);
+            return back('allBrand');
+        }
+    }
+    function getBrandSearch(Request $request)
+    {
+        // echo $request->searchData;
+        $stringToSend = "";
+        // $allcity = stock::find('stockid')->all();
+        $allcity = Brand::where('brand_name','like', $request->searchData.'%')->get();
+        foreach ($allcity as $value) {
+        // array_push($stringToSend, $value->buingPrice, $value->sellingPrice);
+        $stringToSend .= "<option value='" . $value->id . "'>".$value->brand_name."</option>";
+        }
+        echo($stringToSend);
+    }
+    function addNewBrand(Request $request){
+        print_r($request->all());
     }
 }

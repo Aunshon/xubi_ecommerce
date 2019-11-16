@@ -45,6 +45,10 @@
                     <input value="{{old('email')}}" name="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
                 <div class="form-group">
+                    <label>Company/Industry</label>
+                    <input required value="{{old('company_or_industry')}}" name="company_or_industry" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter company orindustry">
+                </div>
+                <div class="form-group">
                     <label>Default Password</label>
                     <input value="salerDefPNew" name="password" type="text" class="form-control"  aria-describedby="emailHelp" readonly>
                 </div>

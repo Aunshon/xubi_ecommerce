@@ -30,7 +30,7 @@ Manage Products
                 <thead class="table-dark">
                     <tr>
                     <th scope="col">UserName / Email</th>
-                    <th scope="col">Product name</th>
+                    <th scope="col">Product name/Brand</th>
                     <th scope="col">Category</th>
                     <th scope="col">Product price</th>
                     <th scope="col">Description</th>
@@ -47,7 +47,10 @@ Manage Products
                         <p>{{App\User::findOrFail($item->user_id)->name}}</p>
                         <p>{{App\User::findOrFail($item->user_id)->email}}</p>
                     </th>
-                    <th scope="row">{{$item->product_name}}</th>
+                    <th scope="row">
+                        <p>{{$item->product_name}}</p>
+                        <p>{{$item->product_name}}</p>
+                    </th>
                     <th scope="row">{{App\category::findOrFail($item->category)->category_name}}</th>
                     <th scope="row">{{$item->product_price}}</th>
                     <td><textarea name="adiinfo" cols="20" rows="2" readonly> {{$item->description}} </textarea></td>

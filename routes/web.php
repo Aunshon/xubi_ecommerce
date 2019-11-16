@@ -36,6 +36,14 @@ Route::get('/changeProductActivation/{pId}/{activaiton}', 'HomeController@change
 Route::get('/deleteproduct/{pId}', 'HomeController@deleteproduct');
 Route::get('/editProduct/{categoryId}', 'HomeController@editProduct');
 Route::post('/updateProduct', 'HomeController@updateProduct')->name('updateProduct');
+//Brand Admin
+Route::get('/allBrand', 'HomeController@allBrand')->name('allBrand');
+Route::post('/saveNewBrand', 'HomeController@saveNewBrand')->name('saveNewBrand');
+Route::get('/brandRequest', 'HomeController@brandRequest')->name('brandRequest');
+Route::get('/brandRequestChange/{id}/{status}', 'HomeController@brandRequestChange');
+Route::get('/brandActivation/{id}/{status}', 'HomeController@brandActivation');
+Route::post('/getBrandSearch', 'HomeController@getBrandSearch');
+Route::post('/addNewBrand', 'HomeController@addNewBrand')->name('addNewBrand');
 
 //Saler....................................................................................
 Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
@@ -46,3 +54,6 @@ Route::get('/allSalerProduct','HomeController@allSalerProduct')->name('allSalerP
 // New Admin..........
 Route::get('/allAdmins','HomeController@allAdmins')->name('allAdmins');
 Route::post('/addNewAdmin', 'HomeController@addNewAdmin')->name('addNewAdmin');
+//Saler COntroller.........
+Route::get('/saler/brand','SalerController@salerbrand')->name('salerbrand');
+
