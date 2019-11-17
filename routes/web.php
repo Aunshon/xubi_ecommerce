@@ -43,7 +43,6 @@ Route::get('/brandRequest', 'HomeController@brandRequest')->name('brandRequest')
 Route::get('/brandRequestChange/{id}/{status}', 'HomeController@brandRequestChange');
 Route::get('/brandActivation/{id}/{status}', 'HomeController@brandActivation');
 Route::post('/getBrandSearch', 'HomeController@getBrandSearch');
-Route::post('/addNewBrand', 'HomeController@addNewBrand')->name('addNewBrand');
 
 //Saler....................................................................................
 Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
@@ -51,9 +50,15 @@ Route::post('/addNewSaler', 'HomeController@addNewSaler')->name('addNewSaler');
 Route::get('/salerApproval/{userid}/{approval}','HomeController@salerApproval')->name('salerApproval');
 Route::get('/deleteSaler/{userid}','HomeController@deleteSaler')->name('deleteSaler');
 Route::get('/allSalerProduct','HomeController@allSalerProduct')->name('allSalerProduct');
+Route::get('/salerRegisterBrands','HomeController@salerRegisterBrands')->name('salerRegisterBrands');
+Route::get('/salerRegisterBrands','HomeController@salerRegisterBrands')->name('salerRegisterBrands');
+Route::get('/salerRegisterBrands','HomeController@salerRegisterBrands')->name('salerRegisterBrands');
+Route::get('/brandRegisterApprove/{id}/{status}','HomeController@brandRegisterApprove')->name('brandRegisterApprove');
 // New Admin..........
 Route::get('/allAdmins','HomeController@allAdmins')->name('allAdmins');
 Route::post('/addNewAdmin', 'HomeController@addNewAdmin')->name('addNewAdmin');
 //Saler COntroller.........
 Route::get('/saler/brand','SalerController@salerbrand')->name('salerbrand');
+Route::post('/addNewBrand', 'SalerController@addNewBrand')->name('addNewBrand');
+Route::post('/requestNewBrand', 'SalerController@requestNewBrand')->name('requestNewBrand');
 

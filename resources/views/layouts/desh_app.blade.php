@@ -205,6 +205,7 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('allBrand')}} ">All Brands</a></li>
                                     <li><a href=" {{Route('brandRequest')}} ">brand Request</a></li>
+                                    <li><a href=" {{Route('salerRegisterBrands')}} ">Saler Register Brands</a></li>
                                 </ul>
                             </li>
                             @endif

@@ -26,65 +26,6 @@ Manage Brands
 
 
 
-        <!--Trigger-->
-        <a class="btn btn-primary" href="#" data-target="#login" data-toggle="modal"><i class="fa fa-plus"></i> New Brand</a>
-
-        <div id="login" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <div class="modal-content">
-              <div class="modal-body">
-                <button data-dismiss="modal" class="close">&times;</button>
-                <h4>Add new Brand To Your List</h4>
-                <input id="searchBrand" type="text" class="form-control" placeholder="Search Brand">
-                <form action="{{Route('addNewBrand')}}" method="POST">
-                    @csrf
-                  <div class="m-b-0">
-                    <select name="brand" id="sres" class="form-control" multiple="" data-role="tagsinput">
-
-                    </select>
-                </div>
-                <button class="btn btn-success form-control">Add to list</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a class="btn btn-primary" href="#" data-target="#req" data-toggle="modal"><i class="fa fa-plus"></i>Request Brad</a>
-
-        <div id="req" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <div class="modal-content">
-              <div class="modal-body">
-                <button data-dismiss="modal" class="close">&times;</button>
-                <h4>Request a new brand</h4>
-                <form enctype="multipart/form-data" action="{{ Route('requestNewBrand') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Brand Name</label>
-                        <input name="brand_name" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter Brand name">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Photo</label>
-                        <input name="photo" type="file" accept="image/*" class="form-control">
-                    </div>
-                    {{-- <div class="form-group">
-                        <label for="exampleFormControlSelect1">Select Activation</label>
-                        <select name="activation" class="form-control" id="exampleFormControlSelect1">
-                        <option value="1">Active</option>
-                        <option value="0">Deactive</option>
-                        </select>
-                    </div> --}}
-                    <button type="submit" class="btn btn-primary col-12 text-center">Add</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
         <div class="row">
             <div class="col">
                 <h3>Your Brand Lists</h3>
@@ -104,7 +45,16 @@ Manage Brands
                                     <td> {{App\User::findOrFail($item->saler_id)->name}} </td>
                                     <td>
                                     @if ($item->approval_status == 0)
-                                        <span class=" label label-warning">Not Aproved</span>
+                                        {{-- <span class=" label label-warning">Not Aproved</span> --}}
+                                        <a id="navbarDropdown2" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                <span class="caret"><span class="label label-warning">Not Aproved</span></span>
+                                           </a>
+
+                                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
+                                               <a class="dropdown-item" href=" {{__('brandRegisterApprove')}}/{{$item->id}}/1 ">
+                                                   {{ __('Approve') }}
+                                               </a>
+                                           </div>
                                     @else
                                         <span class=" label label-success">Aproved</span>
                                     @endif
@@ -126,7 +76,7 @@ Manage Brands
                           </table>
             </div>
             <div class="col">
-              <h3>Your Brand Requests</h3>
+              <input id="show" type="text" class="form-control" placeholder="Last name">
             </div>
         </div>
 

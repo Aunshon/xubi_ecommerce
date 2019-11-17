@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use App\category;
 use App\product;
+use App\SalerRegisterBrand;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -385,7 +386,22 @@ class HomeController extends Controller
         }
         echo($stringToSend);
     }
-    function addNewBrand(Request $request){
-        print_r($request->all());
+    function salerRegisterBrands()
+    {
+        $registerBrands = SalerRegisterBrand::all();
+        return view('deshboard.salerRegisterBrands',compact('registerBrands'));
+    }
+    function brandRegisterApprove($id,$status)
+    {
+        if ($id == null and $status==null) {
+            return back()->with('yellowStatus','Wrong brtand information');
+        } else {
+            SalerRegisterBrand::findOrFail($id)->update([
+            'approval_status' =>1,
+            'aproved_by' => Auth::user()->id,
+            ]);
+        }
+        return back()->with('greenStatus','Brand Registration Approved');
+
     }
 }
