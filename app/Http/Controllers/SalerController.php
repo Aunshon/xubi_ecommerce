@@ -14,7 +14,8 @@ class SalerController extends Controller
     function salerbrand()
     {
         $registerBrands = SalerRegisterBrand::where('saler_id',Auth::user()->id)->get();
-        return view('saler.salerbrand',compact('registerBrands'));
+        $requestBrands = Brand::where('Requestby',Auth::user()->id)->get();
+        return view('saler.salerbrand',compact('registerBrands','requestBrands'));
     }
     function addNewBrand(Request $request){
         $request->validate([

@@ -382,7 +382,9 @@ class HomeController extends Controller
         $allcity = Brand::where('brand_name','like', $request->searchData.'%')->get();
         foreach ($allcity as $value) {
         // array_push($stringToSend, $value->buingPrice, $value->sellingPrice);
-        $stringToSend .= "<option value='" . $value->id . "'>".$value->brand_name."</option>";
+        if($value->request != 0){
+            $stringToSend .= "<option value='" . $value->id . "'>".$value->brand_name."</option>";
+        }
         }
         echo($stringToSend);
     }

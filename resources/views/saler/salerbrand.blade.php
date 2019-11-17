@@ -22,7 +22,7 @@ Manage Brands
 
 
 
-<div class="col-10">
+<div class="col-12">
 
 
 
@@ -127,6 +127,52 @@ Manage Brands
             </div>
             <div class="col">
               <h3>Your Brand Requests</h3>
+              <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Activation</th>
+                        <th scope="col">Request</th>
+                        <th scope="col">Aproved by</th>
+                        <th scope="col">Photoy</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($requestBrands as $item)
+                        <tr>
+                            <th scope="row"> {{$item->brand_name}} </th>
+                            <td>
+                                @if ($item->activation == 1)
+                                    <span class=" label label-success">Active</span>
+                                @else
+                                    <span class=" label label-danger">Inactive</span>
+                                @endif
+                            </td>
+                            <td>
+                            @if ($item->request == 0)
+                                <span class=" label label-warning">Waiting</span>
+                            @else
+                                <span class=" label label-success">Acepted</span>
+                            @endif
+                            </td>
+                            <td>
+                            @if ($item->approvedby == 0)
+                                <span class=" label label-danger">Not seen by admin</span>
+                            @else
+                                {{App\User::findOrFail($item->approvedby)->name}}
+                            @endif
+                            </td>
+                            <td>
+                            <img src="{{asset('uploads/brand')}}/{{$item->photo}}" alt="no photo" width="50px">
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td>No Data</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                  </table>
             </div>
         </div>
 
