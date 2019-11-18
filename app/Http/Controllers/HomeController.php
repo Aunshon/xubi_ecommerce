@@ -371,7 +371,7 @@ class HomeController extends Controller
             Brand::findOrFail($id)->update([
                 'activation' => 0,
             ]);
-            return back('allBrand');
+            return back();
         }
     }
     function getBrandSearch(Request $request)
@@ -382,7 +382,7 @@ class HomeController extends Controller
         $allcity = Brand::where('brand_name','like', $request->searchData.'%')->get();
         foreach ($allcity as $value) {
         // array_push($stringToSend, $value->buingPrice, $value->sellingPrice);
-        if($value->request != 0){
+        if($value->request != 0 && $value->activation != 0){
             $stringToSend .= "<option value='" . $value->id . "'>".$value->brand_name."</option>";
         }
         }

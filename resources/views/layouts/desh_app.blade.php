@@ -58,6 +58,16 @@
                     </a>
                 </div>
 
+                @php
+                    $notificationCount = 0;
+                    $brandNotification = App\Brand::where('request',0)->count();
+                    $brandNotifyItem = App\Brand::where('request',0)->get();
+                    $brandRegisterNotification = App\SalerRegisterBrand::where('approval_status',0)->count();
+                    $brandRegisterNotifyItem = App\SalerRegisterBrand::where('approval_status',0)->get();
+                    $notificationCount += $brandNotification;
+                    $notificationCount += $brandRegisterNotification;
+                    // echo $brandNotification;
+                @endphp
                 <nav class="navbar-custom">
 
                     <ul class="list-inline float-right mb-0">
@@ -65,20 +75,39 @@
                             <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
                                aria-haspopup="false" aria-expanded="false">
                                 <i class="dripicons-bell noti-icon"></i>
-                                <span class="badge badge-pink noti-icon-badge">4</span>
+                        <span class="badge badge-pink noti-icon-badge">{{$notificationCount}}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg" aria-labelledby="Preview">
                                 <!-- item-->
                                 <div class="dropdown-item noti-title">
-                                    <h5><span class="badge badge-danger float-right">5</span>Notification</h5>
+                                <h5><span class="badge badge-danger float-right">{{$notificationCount}}</span>Notification</h5>
                                 </div>
 
                                 <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
-                                    <p class="notify-details">Robert S. Taylor commented on Admin<small class="text-muted">1 min ago</small></p>
-                                </a>
+                                @if ($notificationCount > 0)
 
+                                @if ($brandNotification > 0)
+                                @foreach ($brandNotifyItem as $item)
+
+                            <a href="{{_('brandRequest')}}" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
+                                <p class="notify-details">New Brand Request Has Came.<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
+                                </a>
+                                @endforeach
+                                @endif
+
+                                @if ($brandRegisterNotification > 0)
+                                @foreach ($brandRegisterNotifyItem as $item)
+
+                            <a href="{{_('salerRegisterBrands')}}" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-info"><i class="icon-bubble"></i></div>
+                            <p class="notify-details">{{App\user::findOrFail($item->saler_id)->name}} wants to register a brand<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
+                                </a>
+                                @endforeach
+                                @endif
+
+                                @endif
+{{--
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <div class="notify-icon bg-info"><i class="icon-user"></i></div>
@@ -94,7 +123,7 @@
                                 <!-- All-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item notify-all">
                                     View All
-                                </a>
+                                </a> --}}
 
                             </div>
                         </li>
