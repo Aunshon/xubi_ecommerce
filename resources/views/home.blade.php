@@ -133,7 +133,7 @@ body{
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -153,30 +153,54 @@ body{
 
 
 
+                        <div class="container">
 
 
+                            <table class="table table-bordered table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">SR</th>
+                            <th scope="col">user_id</th>
+                            <th scope="col">product_name</th>
+                            <th scope="col">category</th>
+                            <th scope="col">product_price</th>
+                            <th scope="col">description</th>
+                            <th scope="col">point</th>
+                            <th scope="col">approval</th>
+                            <th scope="col">approvedby</th>
+                            <th scope="col">activation</th>
+                            <th scope="col">photo</th>
+                        </tr>
+                    </thead>
+                    @php
+                        $sr = 0;
+                    @endphp
+                    <tbody>
+                        @forelse ($allProduct as $item)
+                        @if ($item->approval != 0 && $item->activation != 0)
+                        @php
+                            $sr++;
+                        @endphp
+                        <tr>
+                        <th>{{$sr}}</th>
+                            <th scope="row">{{App\user::findOrFail($item->user_id)->name}}</th>
+                            <td>{{$item->product_name}}</td>
+                            <td>{{App\category::findOrFail($item->category)->category_name}}</td>
+                            <td>{{$item->product_price}}</td>
+                            <td><textarea cols="5" rows="5">{{$item->description}}</textarea></td>
+                            <td>{{$item->point}}</td>
+                            <td>{{$item->approval}}</td>
+                            <td>{{$item->approvedby}}</td>
+                            <td>{{$item->activation}}</td>
+                            <td><img src=" {{asset('uploads/product')}}/{{$item->photo}} " alt="no image" width="50px"></td>
+                        </tr>
+                        @endif
+                            @empty
 
-
-
-
-                    <div class="container">
-                            <h3 class="title">GOVT. PUBLIC SECTORS</h3>
-                            <div class="content">
-                              <a href="https://unsplash.com/photos/HkTMcmlMOUQ" target="_blank">
-                                <div class="content-overlay"></div>
-                                <img class="content-image" src="http://www.digicontechnologies.com/wp-content/uploads/2017/07/2.jpg">
-                                <div class="content-details fadeIn-bottom">
-                                  <h3 class="content-title"> </h3>
-                                  <p class="content-text">
-                                        In order to accelerate economic growth rates of Bangladesh, the government committed to improve skills development and training. It developed the Skills for Employment Investment Program (SEIP) – a skills development program for skilling new entrants and up skilling existing workforce to enhance the productivity and growth of priority industry sectors.
-                                  </p>
-                                </div>
-                                <P class="AA">ERUIGJNRSDFGJ</P>
-                              </a>
-                            </div>
-                          </div>
-
-
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
 
 
 

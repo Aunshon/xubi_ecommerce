@@ -43,6 +43,7 @@ Route::get('/brandRequest', 'HomeController@brandRequest')->name('brandRequest')
 Route::get('/brandRequestChange/{id}/{status}', 'HomeController@brandRequestChange');
 Route::get('/brandActivation/{id}/{status}', 'HomeController@brandActivation');
 Route::post('/getBrandSearch', 'HomeController@getBrandSearch');
+Route::get('/productApprovalChange/{id}/{status}', 'HomeController@productApprovalChange');
 
 //Saler....................................................................................
 Route::get('/mysaler','HomeController@mysaler')->name('mysaler');

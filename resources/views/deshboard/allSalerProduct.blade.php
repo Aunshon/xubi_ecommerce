@@ -34,6 +34,8 @@ Manage Products
                     <th scope="col">Category</th>
                     <th scope="col">Product price</th>
                     <th scope="col">Description</th>
+                    <th scope="col">approval</th>
+                    <th scope="col">approvedby</th>
                     <th scope="col">Activation</th>
                     <th scope="col">Point</th>
                     <th scope="col">Photo</th>
@@ -53,7 +55,43 @@ Manage Products
                     </th>
                     <th scope="row">{{App\category::findOrFail($item->category)->category_name}}</th>
                     <th scope="row">{{$item->product_price}}</th>
-                    <td><textarea name="adiinfo" cols="20" rows="2" readonly> {{$item->description}} </textarea></td>
+                    <td><textarea name="adiinfo" cols="10" rows="2" readonly> {{$item->description}} </textarea></td>
+                    <td>
+                        @if ($item->approval == 0)
+                        <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre="">
+                                <span class="caret"><span class="label label-warning">Waiting</span></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1" x-placement="top-end" x-out-of-boundaries="" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(384px, 183px, 0px);">
+                            <a class="dropdown-item" href=" {{__('productApprovalChange')}}/{{$item->id}}/1 ">
+                                    Approve
+                                </a>
+                                {{-- <a class="dropdown-item" href="brandRewquest/{{$item->id}}/0">
+                                    Band
+                                </a> --}}
+                            </div>
+                        @else
+                        <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre="">
+                                <span class="caret"><span class="label label-success">Approved</span></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1" x-placement="top-end" x-out-of-boundaries="" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(384px, 183px, 0px);">
+                            <a class="dropdown-item" href=" {{__('productApprovalChange')}}/{{$item->id}}/0 ">
+                                    Inapprove
+                                </a>
+                                {{-- <a class="dropdown-item" href="brandRewquest/{{$item->id}}/0">
+                                    Band
+                                </a> --}}
+                            </div>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->approvedby == 0)
+                            <span class="label label-danger">Not Touched</span>
+                        @else
+                            <p>{{App\user::findOrFail($item->approvedby)->name}}</p>
+                        @endif
+                    </td>
                     <td>
                             @if ($item->activation == 1)
                                 <a class="btn btn-success" href=" {{__('changeProductActivation')}}/{{$item->id}}/{{$item->activation}} ">Active</a>
@@ -82,7 +120,7 @@ Manage Products
                     @endforelse
                 </tbody>
                 </table>
-                {{-- {{ $allproduct->links() }} --}}
+                {{ $allproduct->links() }}
         </div>
 
 

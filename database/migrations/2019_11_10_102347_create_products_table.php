@@ -21,6 +21,8 @@ class CreateProductsTable extends Migration
             $table->integer('product_price')->default(00);
             $table->longText('description')->default('No Description Given');
             $table->integer('point')->default(0);
+            $table->integer('approval')->default(0);
+            $table->integer('approvedby')->default(0);
             $table->integer('activation')->default(1);
             $table->string('photo')->default('default.png');
             $table->timestamps();

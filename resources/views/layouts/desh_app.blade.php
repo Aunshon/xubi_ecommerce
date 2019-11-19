@@ -62,10 +62,16 @@
                     $notificationCount = 0;
                     $brandNotification = App\Brand::where('request',0)->count();
                     $brandNotifyItem = App\Brand::where('request',0)->get();
+
                     $brandRegisterNotification = App\SalerRegisterBrand::where('approval_status',0)->count();
                     $brandRegisterNotifyItem = App\SalerRegisterBrand::where('approval_status',0)->get();
+
+                    $productNotification = App\product::where('approval',0)->count();
+                    $productNotifyItem = App\product::where('approval',0)->get();
+
                     $notificationCount += $brandNotification;
                     $notificationCount += $brandRegisterNotification;
+                    $notificationCount += $productNotification;
                     // echo $brandNotification;
                 @endphp
                 <nav class="navbar-custom">
@@ -103,6 +109,15 @@
                                     <div class="notify-icon bg-info"><i class="icon-bubble"></i></div>
                             <p class="notify-details">{{App\user::findOrFail($item->saler_id)->name}} wants to register a brand<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
                                 </a>
+                                @endforeach
+                                @endif
+
+                                @if ($productNotification > 0)
+                                @foreach ($productNotifyItem as $item)
+                                <a href="{{_('allSalerProduct')}}" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-danger"><i class="icon-bubble"></i></div>
+                                <p class="notify-details">{{App\user::findOrFail($item->user_id)->name}} added Product<small class="text-muted">{{($item->updated_at)->diffForHumans()}}</small></p>
+                                    </a>
                                 @endforeach
                                 @endif
 

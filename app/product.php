@@ -14,5 +14,7 @@ class product extends Model
         'point',
         'activation',
         'photo',
+        'approval',
+        'approvedby',
 ];
 }

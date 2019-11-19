@@ -32,7 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $allProduct = product::all();
+        return view('home',compact('allProduct'));
     }
     function deshboard()
     {
@@ -405,5 +406,22 @@ class HomeController extends Controller
         }
         return back()->with('greenStatus','Brand Registration Approved');
 
+    }
+    function productApprovalChange($id,$status)
+    {
+        if ($status == 1) {
+            product::findOrFail($id)->update([
+                'approval' => 1,
+                'approvedby' => Auth::user()->id,
+                'updated_at' => Carbon::now(),
+            ]);
+        } else {
+            product::findOrFail($id)->update([
+                'approval' => 0,
+                'approvedby' => Auth::user()->id,
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+        return back();
     }
 }
