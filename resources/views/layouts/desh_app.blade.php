@@ -60,6 +60,7 @@
 
                 @php
                     $notificationCount = 0;
+
                     $brandNotification = App\Brand::where('request',0)->count();
                     $brandNotifyItem = App\Brand::where('request',0)->get();
 

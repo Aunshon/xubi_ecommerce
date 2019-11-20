@@ -23,6 +23,8 @@ class HomeController extends Controller
     {
         // $this->middleware(['auth' => 'verified']);
         $this->middleware('auth');
+        $this->middleware('verified');
+        $this->middleware('userapproval');
     }
 
     /**
@@ -35,6 +37,11 @@ class HomeController extends Controller
         $allProduct = product::all();
         return view('home',compact('allProduct'));
     }
+    // function notApproved()
+    // {
+    //     return view('notApproved');
+    // }
+
     function deshboard()
     {
         return view('deshboard.index');

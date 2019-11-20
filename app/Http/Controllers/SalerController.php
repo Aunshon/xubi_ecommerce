@@ -32,6 +32,7 @@ class SalerController extends Controller
             'brand_id' => $request->brand,
             'saler_id' => Auth::user()->id,
             'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
         return back()->with('greesStatus','Brand added and is in waiting');
     }

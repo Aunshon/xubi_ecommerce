@@ -15,11 +15,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-// Auth::routes(['verify' => true]);
+// Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/notApproved', function(){
+        return view('notApproved');
+})->name('notApproved');
+
+Route::get('/Banded', function(){
+    return view('Banded');
+})->name('Banded');
+
+// Route::get('/deshboard', 'HomeController@deshboard')->name('deshboard')->middleware('verified')->middleware('userapproval');
 Route::get('/deshboard', 'HomeController@deshboard')->name('deshboard');
 //Category
 Route::get('/manage_categories', 'HomeController@manage_categories')->name('manage_categories');
