@@ -20,7 +20,7 @@
 
 
 
-        <div class="col-10">
+        <div class="col-12">
 
 
 
@@ -51,6 +51,16 @@
                                 @if ($item->activation != 0)
                                 <option value=" {{$item->id}} "> {{$item->category_name}} </option>
                                 @endif
+                                @empty
+                                <option>No Data</option>
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>select a brand</label>
+                            <select name="brand" class="form-control" id="exampleFormControlSelect1">
+                                @forelse ($registeredBrands as $item)
+                                <option value=" {{$item->brand_id}} "> {{App\Brand::findOrFail($item->brand_id)->brand_name}} </option>
                                 @empty
                                 <option>No Data</option>
                                 @endforelse
@@ -95,9 +105,12 @@
                             <tr>
                             <th scope="col">Product name</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Brand</th>
                             <th scope="col">Product price</th>
                             <th scope="col">Description</th>
                             <th scope="col">Activation</th>
+                            <th scope="col">Approval</th>
+                            <th scope="col">Approved By</th>
                             <th scope="col">Point</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Action</th>
@@ -108,15 +121,32 @@
                             <tr>
                             <th scope="row">{{$item->product_name}}</th>
                             <th scope="row">{{App\category::findOrFail($item->category)->category_name}}</th>
+                            <th scope="row">{{App\Brand::findOrFail($item->brand)->brand_name}}</th>
                             <th scope="row">{{$item->product_price}}</th>
-                            <td><textarea name="adiinfo" cols="20" rows="2" readonly> {{$item->description}} </textarea></td>
+                            <td><textarea name="adiinfo" cols="10" rows="2" readonly> {{$item->description}} </textarea></td>
                             <td>
                                     @if ($item->activation == 1)
                                         <a class="btn btn-success" href=" {{__('changeProductActivation')}}/{{$item->id}}/{{$item->activation}} ">Active</a>
                                     @else
                                         <a class="btn btn-danger" href=" {{__('changeProductActivation')}}/{{$item->id}}/{{$item->activation}} ">Inactive</a>
                                     @endif
-                                </td>
+                            </td>
+                            <td>
+                                    @if ($item->approval == 1)
+                                        <span class="label label-success">Approved</span>
+                                    @else
+                                        <span class="label label-warning">Not Approved</span>
+                                    @endif
+                            </td>
+                            <td>
+                                @if ($item->approvedby == 0)
+                                    <span class="label label-danger">not seen</span>
+                                @elseif($item->approvedby == null)
+                                    <span class="label label-danger">user error</span>
+                                @else
+                                {{App\User::findOrFail($item->approvedby)->name}}
+                                @endif
+                            </td>
                             <th scope="row">{{$item->point}}</th>
                             <td>
                                 <img src=" {{asset('uploads/product')}}/{{$item->photo}} " width="50px" alt="Photo Link Not Found">

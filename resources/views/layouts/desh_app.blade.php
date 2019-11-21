@@ -59,9 +59,11 @@
                 </div>
 
                 @php
-                    $notificationCount = 0;
+                    if (Auth::user()->role == 3) {
 
-                    $brandNotification = App\Brand::where('request',0)->count();
+                        $notificationCount = 0;
+
+                        $brandNotification = App\Brand::where('request',0)->count();
                     $brandNotifyItem = App\Brand::where('request',0)->get();
 
                     $brandRegisterNotification = App\SalerRegisterBrand::where('approval_status',0)->count();
@@ -73,76 +75,68 @@
                     $notificationCount += $brandNotification;
                     $notificationCount += $brandRegisterNotification;
                     $notificationCount += $productNotification;
+                    } else {
+                        # code...
+                    }
                     // echo $brandNotification;
                 @endphp
                 <nav class="navbar-custom">
 
                     <ul class="list-inline float-right mb-0">
-                        <li class="list-inline-item dropdown notification-list">
-                            <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="false" aria-expanded="false">
-                                <i class="dripicons-bell noti-icon"></i>
-                        <span class="badge badge-pink noti-icon-badge">{{$notificationCount}}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg" aria-labelledby="Preview">
-                                <!-- item-->
-                                <div class="dropdown-item noti-title">
-                                <h5><span class="badge badge-danger float-right">{{$notificationCount}}</span>Notification</h5>
-                                </div>
-
-                                <!-- item-->
-                                @if ($notificationCount > 0)
-
-                                @if ($brandNotification > 0)
-                                @foreach ($brandNotifyItem as $item)
-
-                            <a href="{{_('brandRequest')}}" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
-                                <p class="notify-details">New Brand Request Has Came.<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
+                        {{-- start notification --}}
+                        @if (Auth::user()->role == 3)
+                            <li class="list-inline-item dropdown notification-list">
+                                <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="false" aria-expanded="false">
+                                    <i class="dripicons-bell noti-icon"></i>
+                                <span class="badge badge-pink noti-icon-badge">{{$notificationCount}}</span>
                                 </a>
-                                @endforeach
-                                @endif
+                                <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg" aria-labelledby="Preview">
+                                    <!-- item-->
+                                    <div class="dropdown-item noti-title">
+                                    <h5><span class="badge badge-danger float-right">{{$notificationCount}}</span>Notification</h5>
+                                    </div>
 
-                                @if ($brandRegisterNotification > 0)
-                                @foreach ($brandRegisterNotifyItem as $item)
+                                    <!-- item-->
+                                    @if ($notificationCount > 0)
 
-                            <a href="{{_('salerRegisterBrands')}}" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-info"><i class="icon-bubble"></i></div>
-                            <p class="notify-details">{{App\user::findOrFail($item->saler_id)->name}} wants to register a brand<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
-                                </a>
-                                @endforeach
-                                @endif
+                                    @if ($brandNotification > 0)
+                                    @foreach ($brandNotifyItem as $item)
 
-                                @if ($productNotification > 0)
-                                @foreach ($productNotifyItem as $item)
-                                <a href="{{_('allSalerProduct')}}" class="dropdown-item notify-item">
-                                        <div class="notify-icon bg-danger"><i class="icon-bubble"></i></div>
-                                <p class="notify-details">{{App\user::findOrFail($item->user_id)->name}} added Product<small class="text-muted">{{($item->updated_at)->diffForHumans()}}</small></p>
+                                <a href="{{_('brandRequest')}}" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
+                                    <p class="notify-details">New Brand Request Has Came.<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
                                     </a>
-                                @endforeach
-                                @endif
+                                    @endforeach
+                                    @endif
 
-                                @endif
-{{--
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-info"><i class="icon-user"></i></div>
-                                    <p class="notify-details">New user registered.<small class="text-muted">1 min ago</small></p>
-                                </a>
+                                    @if ($brandRegisterNotification > 0)
+                                    @foreach ($brandRegisterNotifyItem as $item)
 
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-danger"><i class="icon-like"></i></div>
-                                    <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">1 min ago</small></p>
-                                </a>
+                                <a href="{{_('salerRegisterBrands')}}" class="dropdown-item notify-item">
+                                        <div class="notify-icon bg-info"><i class="icon-bubble"></i></div>
+                                <p class="notify-details">{{App\user::findOrFail($item->saler_id)->name}} wants to register a brand<small class="text-muted">{{$item->updated_at->diffForHumans()}}</small></p>
+                                    </a>
+                                    @endforeach
+                                    @endif
 
-                                <!-- All-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item notify-all">
-                                    View All
-                                </a> --}}
+                                    @if ($productNotification > 0)
+                                    @foreach ($productNotifyItem as $item)
+                                    <a href="{{_('allSalerProduct')}}" class="dropdown-item notify-item">
+                                            <div class="notify-icon bg-danger"><i class="icon-bubble"></i></div>
+                                    <p class="notify-details">{{App\user::findOrFail($item->user_id)->name}} added Product<small class="text-muted">{{($item->updated_at)->diffForHumans()}}</small></p>
+                                        </a>
+                                    @endforeach
+                                    @endif
 
-                            </div>
-                        </li>
+                                    @endif
+
+                                </div>
+                            </li>
+                        @else
+
+                        @endif
+                        {{-- end notificatoin --}}
 
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"

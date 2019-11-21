@@ -119,8 +119,9 @@ class HomeController extends Controller
     {
         $allcategory = category::all();
         $allproduct = product::where('user_id',Auth::user()->id)->paginate(5);
+        $registeredBrands = SalerRegisterBrand::where('saler_id',Auth::user()->id)->where('approval_status',1)->get();
         // $allproduct = product::all();
-        return view('deshboard.manage_product',compact('allcategory','allproduct'));
+        return view('deshboard.manage_product',compact('allcategory','allproduct','registeredBrands'));
     }
     function saveNewProduct(Request $request)
     {
@@ -132,6 +133,7 @@ class HomeController extends Controller
             'product_price' => 'required|numeric',
             'category' => 'required|numeric',
             'activation' => 'required|numeric',
+            'brand' => 'required|numeric',
             'description' => 'required',
             'point' => 'required|numeric|max:100|min:0',
             // 'photo' => 'required',
@@ -143,9 +145,11 @@ class HomeController extends Controller
             'product_price' => $request->product_price,
             'category' => $request->category,
             'activation' => $request->activation,
+            'brand' => $request->brand,
             'description' => $request->description,
             'point' => $request->point,
             'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         if ($request->hasFile('photo')) {

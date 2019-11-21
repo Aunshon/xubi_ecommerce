@@ -13,6 +13,7 @@ class product extends Model
         'description',
         'point',
         'activation',
+        'brand',
         'photo',
         'approval',
         'approvedby',

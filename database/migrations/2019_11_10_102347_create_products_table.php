@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id')->default(1);
             $table->string('product_name')->default('No Name');
             $table->integer('category')->default(1);
+            $table->integer('brand')->default(0);
             $table->integer('product_price')->default(00);
             $table->longText('description')->default('No Description Given');
             $table->integer('point')->default(0);
