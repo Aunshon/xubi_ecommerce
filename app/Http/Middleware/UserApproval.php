@@ -16,14 +16,24 @@ class UserApproval
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->approval == 2) {
+        if (Auth::user()->role == 3 ||Auth::user()->role == 2 && Auth::user()->approval == 2) {
             return $next($request);
         }
-        elseif (Auth::user()->approval == 1) {
+        elseif (Auth::user()->role == 3 ||Auth::user()->role == 2 && Auth::user()->approval == 1) {
             return redirect(url('notApproved'));
         }
-        else{
+        elseif (Auth::user()->role == 1 && Auth::user()->approval == 1 || Auth::user()->approval == 2) {
+            return $next($request);
+        }
+        elseif (Auth::user()->approval == 0) {
             return redirect(url('Banded'));
+        }
+        elseif (Auth::user()->role > 3) {
+            return abort(404);
+        }
+        else{
+            // return redirect(url('Banded'));
+            return abort(404);
         }
     }
 }
