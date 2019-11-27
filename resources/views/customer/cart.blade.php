@@ -165,6 +165,7 @@ body{
                             <th scope="col">Price</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Quantiry</th>
+                            <th scope="col">Total Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,10 +174,11 @@ body{
                             <th scope="row">{{App\product::findOrFail($item->product_id)->product_name}}</th>
                             <td>{{App\product::findOrFail($item->product_id)->product_price}}</td>
                             @php
-                                $totalPrice += App\product::findOrFail($item->product_id)->product_price;
+                                $totalPrice += (App\product::findOrFail($item->product_id)->product_price)*($item->product_quantity);
                             @endphp
                             <td><img src="{{asset('uploads/product')}}/{{App\product::findOrFail($item->product_id)->photo}}" alt="no photo" width="50px"></td>
                             <td>{{$item->product_quantity}}</td>
+                            <td>{{(App\product::findOrFail($item->product_id)->product_price)*($item->product_quantity)}}</td>
                         </tr>
                         @empty
                         No data
