@@ -136,15 +136,7 @@ body{
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    Dashboard
-
-
-
-                <a href="{{__('cart')}}" class="btn btn-info rounded-circle">
-                        {{ App\Cart::where('customer_ip',$_SERVER['REMOTE_ADDR'])->count() }}
-                </a>
-
-
+                    Cart Page
 
 
                 </div>
@@ -156,67 +148,47 @@ body{
                         </div>
                     @endif
 
-                    You are logged in!
+                @php
+                    $totalPrice =0;
+                @endphp
 
 
 
 
-
-
-
-
-                        <div class="container">
+                <div class="container">
 
 
                             <table class="table table-bordered table-dark">
                         <thead>
                           <tr>
-                            <th scope="col">SR</th>
-                            <th scope="col">user_id</th>
-                            <th scope="col">product_name</th>
-                            <th scope="col">category</th>
-                            <th scope="col">product_price</th>
-                            <th scope="col">description</th>
-                            <th scope="col">point</th>
-                            <th scope="col">approval</th>
-                            <th scope="col">approvedby</th>
-                            <th scope="col">activation</th>
-                            <th scope="col">photo</th>
-                            <th scope="col">add cart</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Quantiry</th>
                         </tr>
                     </thead>
-                    @php
-                        $sr = 0;
-                    @endphp
                     <tbody>
-                        @forelse ($allProduct as $item)
-                        @if ($item->approval != 0 && $item->activation != 0)
-                        @php
-                            $sr++;
-                        @endphp
+                        @forelse ($all_my_carts as $item)
                         <tr>
-                        <th>{{$sr}}</th>
-                            <th scope="row">{{App\user::findOrFail($item->user_id)->name}}</th>
-                            <td>{{$item->product_name}}</td>
-                            <td>{{App\category::findOrFail($item->category)->category_name}}</td>
-                            <td>{{$item->product_price}}</td>
-                            <td><textarea cols="5" rows="5">{{$item->description}}</textarea></td>
-                            <td>{{$item->point}}</td>
-                            <td>{{$item->approval}}</td>
-                            <td>{{$item->approvedby}}</td>
-                            <td>{{$item->activation}}</td>
-                            <td><img src=" {{asset('uploads/product')}}/{{$item->photo}} " alt="no image" width="50px"></td>
-                            <td><a class="btn btn-success" href="{{__('add/to/cart')}}/{{$item->id}}">add to cart</a></td>
+                            <th scope="row">{{App\product::findOrFail($item->product_id)->product_name}}</th>
+                            <td>{{App\product::findOrFail($item->product_id)->product_price}}</td>
+                            @php
+                                $totalPrice += App\product::findOrFail($item->product_id)->product_price;
+                            @endphp
+                            <td><img src="{{asset('uploads/product')}}/{{App\product::findOrFail($item->product_id)->photo}}" alt="no photo" width="50px"></td>
+                            <td>{{$item->product_quantity}}</td>
                         </tr>
-                        @endif
-                            @empty
-
-                            @endforelse
+                        @empty
+                        No data
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
 
-
+                <div class="input-group">
+                        <h3 type="text" class="form-control text-center">Total Amount : </h3>
+                        <h3 type="text" class="form-control text-center">{{$totalPrice}}</h3>
+                </div><br>
 
 
 

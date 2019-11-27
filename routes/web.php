@@ -72,3 +72,6 @@ Route::get('/saler/brand','SalerController@salerbrand')->name('salerbrand');
 Route::post('/addNewBrand', 'SalerController@addNewBrand')->name('addNewBrand');
 Route::post('/requestNewBrand', 'SalerController@requestNewBrand')->name('requestNewBrand');
 
+//...........Cart....................................................................................
+Route::get('/cart','CartController@cart')->name('cart');
+Route::get('/add/to/cart/{product_id}','CartController@addtocart')->name('addtocart');
