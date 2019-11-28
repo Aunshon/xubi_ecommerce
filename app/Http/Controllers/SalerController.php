@@ -11,6 +11,14 @@ use Intervention\Image\Facades\Image;
 
 class SalerController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware(['auth' => 'verified']);
+        $this->middleware('auth');
+        $this->middleware('verified');
+        $this->middleware('userapproval');
+        $this->middleware('userrestriction');
+    }
     function salerbrand()
     {
         $registerBrands = SalerRegisterBrand::where('saler_id',Auth::user()->id)->get();

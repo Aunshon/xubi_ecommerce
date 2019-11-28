@@ -18,7 +18,12 @@ Route::get('/', function () {
 // Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function ()
+{
+    $allProduct = App\product::all();
+    return view('home',compact('allProduct'));
+})->name('home');
 
 Route::get('/notApproved', function(){
         return view('notApproved');
@@ -55,6 +60,7 @@ Route::post('/getBrandSearch', 'HomeController@getBrandSearch');
 Route::get('/productApprovalChange/{id}/{status}', 'HomeController@productApprovalChange');
 
 //Saler....................................................................................
+// Route::get('/mysaler','HomeController@mysaler')->name('mysaler')->middleware('userrestriction');
 Route::get('/mysaler','HomeController@mysaler')->name('mysaler');
 Route::post('/addNewSaler', 'HomeController@addNewSaler')->name('addNewSaler');
 Route::get('/salerApproval/{userid}/{approval}','HomeController@salerApproval')->name('salerApproval');
