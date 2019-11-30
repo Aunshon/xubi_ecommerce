@@ -172,7 +172,7 @@ body{
                         <thead>
                           <tr>
                             <th scope="col">SR</th>
-                            <th scope="col">user_id</th>
+                            {{-- <th scope="col">user_id</th> --}}
                             <th scope="col">product_name</th>
                             <th scope="col">category</th>
                             <th scope="col">product_price</th>
@@ -196,7 +196,7 @@ body{
                         @endphp
                         <tr>
                         <th>{{$sr}}</th>
-                            <th scope="row">{{App\user::findOrFail($item->user_id)->name}}</th>
+                            {{-- <th scope="row">{{App\user::findOrFail($item->user_id)->name}}</th> --}}
                             <td>{{$item->product_name}}</td>
                             <td>{{App\category::findOrFail($item->category)->category_name}}</td>
                             <td>{{$item->product_price}}</td>
