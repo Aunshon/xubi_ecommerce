@@ -166,9 +166,13 @@ body{
                             <th scope="col">Photo</th>
                             <th scope="col">Quantiry</th>
                             <th scope="col">Total Price</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <script>
+                            var checkUpdateBtn = 0;
+                        </script>
                         <form action="{{Route('updateCart')}}" method="post">
                             @csrf
                         @forelse ($all_my_carts as $item)
@@ -182,6 +186,10 @@ body{
                             <input type="hidden" class="productId" name="productId[]" value="{{$item->product_id}}">
                             <td><input type="number" class="cartQuantity" name="cartQuantity[]" value="{{$item->product_quantity}}"></td>
                             <td>{{(App\product::findOrFail($item->product_id)->product_price)*($item->product_quantity)}}</td>
+                            <td><a class="btn btn-danger" href="{{url('deleteCart')}}/{{$item->id}}">Remove</a></td>
+                            <script>
+                                checkUpdateBtn++;
+                            </script>
                         </tr>
                         @empty
                         No data
@@ -198,7 +206,9 @@ body{
                         <h3 type="text" class="form-control text-center">Total Amount : </h3>
                         <h3 type="text" class="form-control text-center">{{$totalPrice}}</h3>
                 </div><br>
-
+                <div>
+                    <a href="{{Route("clearCart")}}" id="clearCart" class="btn btn-info">Clear Cart</a>
+                </div>
 
 
 
@@ -218,7 +228,10 @@ body{
     <script>
         $(document).ready(function () {
 
-
+            if (checkUpdateBtn == 0) {
+                document.getElementById("updateBtn").disabled = true;
+                // document.getElementById("clearCart").disabled = true;
+            }
             function updateValidation(e) {
                 if (e.target.value <=0) {
                     // alert("quantity must be minimum 1");

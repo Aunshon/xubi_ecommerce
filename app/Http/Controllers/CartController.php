@@ -60,4 +60,20 @@ class CartController extends Controller
         // echo "Your Cart Updated";
         return back()->with('greenStatus','Your Cart Updated👍');
     }
+    function clearCart()
+    {
+        // echo $_SERVER['REMOTE_ADDR'];
+        $check = Cart::where('customer_ip',$_SERVER['REMOTE_ADDR'])->delete();
+        if ($check) {
+            return back()->with('greenStatus','Your Cart Cleared');
+        }
+        else {
+            return back()->with('yellowStatus','Nothing To Clear');
+        }
+    }
+    function deleteCart($cartId)
+    {
+        Cart::findOrFail($cartId)->delete();
+        return back()->with('greenStatus','Cart Removed');
+    }
 }
