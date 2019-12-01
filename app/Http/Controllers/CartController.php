@@ -37,4 +37,27 @@ class CartController extends Controller
             return view(abort(404));
         }
     }
+    public function updateCart(Request $request)
+    {
+        // print_r($request->cartQuantity);
+        foreach ($request->cartQuantity as $key => $value) {
+            // echo "P id:".$request->productId[$key]."  quan:".$value."<br>";
+            if ($value>0) {
+                if (product::find($request->productId[$key])->quantity < $value) {
+                    return back()->with('redStatus', "We don't have this much stock of ".product::find($request->productId[$key])->product_name." ,Please reduse quantity");
+                    // echo "We don't have enough stock";
+                }
+                else {
+                    Cart::where('product_id', $request->productId[$key])->where('customer_ip',$_SERVER[ 'REMOTE_ADDR'])->update([
+                        'product_quantity' => $value,
+                    ]);
+                }
+            }
+            else {
+                return back()->with('yellowStatus','Quantity must be at list 1');
+            }
+        }
+        // echo "Your Cart Updated";
+        return back()->with('greenStatus','Your Cart Updated👍');
+    }
 }

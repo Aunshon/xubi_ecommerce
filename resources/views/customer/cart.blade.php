@@ -169,6 +169,8 @@ body{
                         </tr>
                     </thead>
                     <tbody>
+                        <form action="{{Route('updateCart')}}" method="post">
+                            @csrf
                         @forelse ($all_my_carts as $item)
                         <tr>
                             <th scope="row">{{App\product::findOrFail($item->product_id)->product_name}}</th>
@@ -177,14 +179,19 @@ body{
                                 $totalPrice += (App\product::findOrFail($item->product_id)->product_price)*($item->product_quantity);
                             @endphp
                             <td><img src="{{asset('uploads/product')}}/{{App\product::findOrFail($item->product_id)->photo}}" alt="no photo" width="50px"></td>
-                            <td>{{$item->product_quantity}}</td>
+                            <input type="hidden" class="productId" name="productId[]" value="{{$item->product_id}}">
+                            <td><input type="number" class="cartQuantity" name="cartQuantity[]" value="{{$item->product_quantity}}"></td>
                             <td>{{(App\product::findOrFail($item->product_id)->product_price)*($item->product_quantity)}}</td>
                         </tr>
                         @empty
                         No data
                         @endforelse
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
+                                <tr>
+                                    <button id="updateBtn" type="submit" class="form-control btn btn-success">Update Cart</button>
+                                </tr>
+                            </form>
                 </div>
 
                 <div class="input-group">
@@ -205,4 +212,34 @@ body{
         </div>
     </div>
 </div>
+@endsection
+
+@section('addNewScript')
+    <script>
+        $(document).ready(function () {
+
+
+            function updateValidation(e) {
+                if (e.target.value <=0) {
+                    // alert("quantity must be minimum 1");
+                    // e.target.value = 1;
+                    e.target.style.border = "2px solid red";
+                    document.getElementById("updateBtn").disabled = true;
+                }
+                else{
+                    e.target.style.border = "none";
+                    document.getElementById("updateBtn").disabled = false;
+                }
+            }
+
+
+            $('.cartQuantity').keyup(function (e) {
+                updateValidation(e);
+            });
+
+            $('.cartQuantity').change(function (e) {
+                updateValidation(e);
+            });
+        });
+    </script>
 @endsection

@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->default(1);
             $table->string('product_name')->default('No Name');
+            $table->integer('quantity')->default(0);
             $table->integer('category')->default(1);
             $table->integer('brand')->default(0);
             $table->integer('product_price')->default(00);
