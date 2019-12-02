@@ -83,5 +83,9 @@ Route::get('/cart','CartController@cart')->name('cart');
 Route::get('/add/to/cart/{product_id}','CartController@addtocart')->name('addtocart');
 Route::post('/updateCart',"CartController@updateCart")->name('updateCart');
 Route::get('/clearCart','CartController@clearCart')->name('clearCart');
-Route::get('/checkOut','CartController@checkOut')->name('checkOut');
 Route::get('/deleteCart/{cartId}','CartController@deleteCart');
+//Cart CheckOut
+Route::post('/checkOut','CartController@checkOut')->name('checkOut')->middleware('auth');
+Route::post('/getCityName','CartController@getCityName')->name('getCityName');
+//Place Order
+Route::post('/placeOrder', 'CartController@placeOrder')->name('placeOrder');

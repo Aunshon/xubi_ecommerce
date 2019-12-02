@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Country;
 use App\product;
+use App\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -76,7 +78,34 @@ class CartController extends Controller
         Cart::findOrFail($cartId)->delete();
         return back()->with('greenStatus','Cart Removed');
     }
-    function checkOut(){
-        return view('customer.checkOut');
+    function checkOut(Request $request){
+
+        if (isset($_POST['checkOutBtn'])) {
+            $sub = $request->sub;
+            $ship = $request->ship;
+            $dis = $request->dis;
+            $tot = $request->tot;
+            $allCounry = Country::all();
+            $allState = State::all();
+            // print_r($allCounry->all());
+            // echo $allState;
+            return view('customer.checkOut',compact('allCounry','sub','ship','dis','tot'));
+        }
+        else {
+            return back();
+        }
+
+    }
+    function getCityName(Request $request){
+        $allState = State::where('country_id',$request->country_id)->get();
+        $dataToSend = null;
+        foreach ($allState as $key => $value) {
+            $dataToSend .= "<option value='".$value->id."'>".$value->name."</option>";
+        }
+        echo $dataToSend;
+    }
+    function placeOrder(Request $request)
+    {
+        print_r($request->all());
     }
 }

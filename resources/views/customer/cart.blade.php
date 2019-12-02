@@ -207,8 +207,21 @@ body{
                         <h3 type="text" class="form-control text-center">{{$totalPrice}}</h3>
                 </div><br>
                 <div class="input-group">
-                    <a href="{{Route("clearCart")}}" id="clearCart" class="btn btn-info form-control">Clear Cart</a>
-                    <a href="{{Route("checkOut")}}" id="checkOut" class="btn btn-dark form-control">Check Out</a>
+                    <div>
+                        <a href="{{Route("clearCart")}}" id="clearCart" class="btn btn-info form-control">Clear Cart</a>
+                    </div>
+                    <div>
+                        <form action="{{ url('checkOut') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="sub" id="sub" value="{{ $totalPrice }}"> {{--subTotal--}}
+                                <input type="hidden" name="ship" id="ship" value="{{ 0 }}"> {{--shiping amount--}}
+                                {{-- <input type="hidden" name="dis" id="dis" value="{{ ($totalPrice*($percentage))/100 }}"> discount --}}
+                                <input type="hidden" name="dis" id="dis" value="{{ ($totalPrice*(0))/100 }}"> {{--discount--}}
+                                {{-- <input type="hidden" name="tot" id="tot" value="{{ $totalPrice-(($totalPrice*($percentage))/100) }}"> after discount price is --}}
+                                <input type="hidden" name="tot" id="tot" value="{{ $totalPrice-(($totalPrice*(0))/100) }}">
+                                <button name="checkOutBtn" class="btn btn-dark form-control">Proceed to checkout</button>
+                        </form>
+                    </div>
                 </div>
 
 
@@ -256,4 +269,6 @@ body{
             });
         });
     </script>
+
+
 @endsection
