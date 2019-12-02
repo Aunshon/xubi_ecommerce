@@ -206,8 +206,9 @@ body{
                         <h3 type="text" class="form-control text-center">Total Amount : </h3>
                         <h3 type="text" class="form-control text-center">{{$totalPrice}}</h3>
                 </div><br>
-                <div>
-                    <a href="{{Route("clearCart")}}" id="clearCart" class="btn btn-info">Clear Cart</a>
+                <div class="input-group">
+                    <a href="{{Route("clearCart")}}" id="clearCart" class="btn btn-info form-control">Clear Cart</a>
+                    <a href="{{Route("checkOut")}}" id="checkOut" class="btn btn-dark form-control">Check Out</a>
                 </div>
 
 

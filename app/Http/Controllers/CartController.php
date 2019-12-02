@@ -76,4 +76,7 @@ class CartController extends Controller
         Cart::findOrFail($cartId)->delete();
         return back()->with('greenStatus','Cart Removed');
     }
+    function checkOut(){
+        return view('customer.checkOut');
+    }
 }
