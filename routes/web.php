@@ -89,3 +89,6 @@ Route::post('/checkOut','CartController@checkOut')->name('checkOut')->middleware
 Route::post('/getCityName','CartController@getCityName')->name('getCityName');
 //Place Order
 Route::post('/placeOrder', 'CartController@placeOrder')->name('placeOrder');
+//Security Pin
+Route::get('/createSecurityPin','SecurityPinController@createSecurityPin')->name('createSecurityPin');
+Route::get('/saveNewSecurityPin/{digit}/{generate}','SecurityPinController@saveNewSecurityPin')->name('saveNewSecurityPin');

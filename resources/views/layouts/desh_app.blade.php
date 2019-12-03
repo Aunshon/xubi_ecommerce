@@ -64,17 +64,17 @@
                         $notificationCount = 0;
 
                         $brandNotification = App\Brand::where('request',0)->count();
-                    $brandNotifyItem = App\Brand::where('request',0)->get();
+                        $brandNotifyItem = App\Brand::where('request',0)->get();
 
-                    $brandRegisterNotification = App\SalerRegisterBrand::where('approval_status',0)->count();
-                    $brandRegisterNotifyItem = App\SalerRegisterBrand::where('approval_status',0)->get();
+                        $brandRegisterNotification = App\SalerRegisterBrand::where('approval_status',0)->count();
+                        $brandRegisterNotifyItem = App\SalerRegisterBrand::where('approval_status',0)->get();
 
-                    $productNotification = App\product::where('approval',0)->count();
-                    $productNotifyItem = App\product::where('approval',0)->get();
+                        $productNotification = App\product::where('approval',0)->count();
+                        $productNotifyItem = App\product::where('approval',0)->get();
 
-                    $notificationCount += $brandNotification;
-                    $notificationCount += $brandRegisterNotification;
-                    $notificationCount += $productNotification;
+                        $notificationCount += $brandNotification;
+                        $notificationCount += $brandRegisterNotification;
+                        $notificationCount += $productNotification;
                     } else {
                         # code...
                     }
@@ -282,21 +282,16 @@
                             </li>
                             @endif
 
+                            @if (Auth::user()->role == 3)
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-bar-graph-2"></i><span> Graphs </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript: void(0);"><i class="fa fa-key"></i><span> Secutiry Pin </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="chart-flot.html">Flot Chart</a></li>
-                                    <li><a href="chart-morris.html">Morris Chart</a></li>
-                                    <li><a href="chart-google.html">Google Chart</a></li>
-                                    <li><a href="chart-echart.html">Echarts</a></li>
-                                    <li><a href="chart-chartist.html">Chartist Charts</a></li>
-                                    <li><a href="chart-chartjs.html">Chartjs Chart</a></li>
-                                    <li><a href="chart-c3.html">C3 Chart</a></li>
-                                    <li><a href="chart-justgage.html">Justgage Charts</a></li>
-                                    <li><a href="chart-sparkline.html">Sparkline Chart</a></li>
-                                    <li><a href="chart-knob.html">Jquery Knob</a></li>
+                                    <li><a href="#">Unused Pin</a></li>
+                                    <li><a href="#">User Registered Pin</a></li>
+                                    <li><a href="{{Route('createSecurityPin')}}">Create Pins</a></li>
                                 </ul>
                             </li>
+                            @endif
 
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-mail"></i><span> Email </span> <span class="menu-arrow"></span></a>

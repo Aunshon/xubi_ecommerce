@@ -52,6 +52,13 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'securityPin' => ['required', 'string', 'unique:users'],
+            // 'fathersName' => ['required', 'string', 'max:255'],
+            // 'mothersName' => ['required', 'string', 'max:255'],
+            // 'NID' => ['required', 'string', 'max:255'],
+            // 'dateOfBirth' => ['required', 'date'],
+            // 'nomenyName' => ['required', 'string', 'max:255'],
+            // 'nomenyRelation' => ['required', 'string', 'max:255'],
         ]);
     }
 
