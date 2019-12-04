@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\SecurityPin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SecurityPinController extends Controller
 {
     function createSecurityPin()
     {
-        return view('Secutiry.createSecurityPin');
+        return view('SecutiryPin.createSecurityPin');
     }
     function saveNewSecurityPin($digit,$generate)
     {
@@ -18,9 +20,10 @@ class SecurityPinController extends Controller
         if ($generate == null || $generate == 0) {
             $generate=20;
         }
-
+        //generating pin
         function getName($digit) {
             // $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU,VWXYZ/\!@#$%&*()_-=`~.?|';
+            // $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*_-=~?';
             $characters = '0123456789';
             $randomString = '';
 
@@ -31,9 +34,38 @@ class SecurityPinController extends Controller
 
             return $randomString;
         }
-
-        for ($i=0; $i < $generate; $i++) {
-            echo "<b>".getName($digit)."</b>"."<br><br>";
+        //collect all pin and push on a array
+        $data = SecurityPin::all('pin');
+        $a=array();
+        foreach ($data as $key => $value) {
+            array_push($a,$value->pin);
         }
+        // print_r($a);
+        // if (in_array("2eT#IuDgV90_", $a)){
+        //     echo "Match";
+        // }
+        $counter = 0;
+        for ($i=0; $i < $generate; $i++) {
+            $pin = getName($digit);
+            echo "<b>".$pin."</b>"."<br><br>";
+            //if the pin does not exists the pin will be inserted
+            if (!in_array($pin, $a)){
+                $checkCounter = SecurityPin::insert([
+                    'pin' => $pin,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                if ($checkCounter) {
+                    $counter++;
+                }
+            }
+        }
+
+        return back()->with('greenStatus',$counter.' Pin Created Successfully');
+    }
+    function unusedPin()
+    {
+        $unUsedPin = SecurityPin::where('registered_status',0)->paginate(10);
+        return view('SecutiryPin.unusedPin',compact('unUsedPin'));
     }
 }

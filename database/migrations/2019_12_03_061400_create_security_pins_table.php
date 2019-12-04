@@ -15,6 +15,9 @@ class CreateSecurityPinsTable extends Migration
     {
         Schema::create('security_pins', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('pin');
+            $table->integer('registered_user_id')->default(0);
+            $table->integer('registered_status')->default(0);
             $table->timestamps();
         });
     }
