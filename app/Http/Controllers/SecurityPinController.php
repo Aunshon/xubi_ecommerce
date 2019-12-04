@@ -68,4 +68,8 @@ class SecurityPinController extends Controller
         $unUsedPin = SecurityPin::where('registered_status',0)->paginate(10);
         return view('SecutiryPin.unusedPin',compact('unUsedPin'));
     }
+    function removePin($pinId){
+        SecurityPin::findOrFail($pinId)->delete();
+        return back()->with('greenStatus','Pin Removed');
+    }
 }

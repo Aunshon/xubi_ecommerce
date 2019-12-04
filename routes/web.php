@@ -93,3 +93,4 @@ Route::post('/placeOrder', 'CartController@placeOrder')->name('placeOrder');
 Route::get('/createSecurityPin','SecurityPinController@createSecurityPin')->name('createSecurityPin');
 Route::get('/saveNewSecurityPin/{digit}/{generate}','SecurityPinController@saveNewSecurityPin')->name('saveNewSecurityPin');
 Route::get('/unusedPin','SecurityPinController@unusedPin')->name('unusedPin');
+Route::get('/removePin/{pinId}','SecurityPinController@removePin')->name('removePin');

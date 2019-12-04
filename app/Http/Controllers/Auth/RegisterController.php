@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Rules\checkPin;
+use App\Rules\pinUseAble;
+use App\SecurityPin;
 use App\User;
+use Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,13 +56,13 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            // 'securityPin' => ['required', 'string', 'unique:users'],
-            // 'fathersName' => ['required', 'string', 'max:255'],
-            // 'mothersName' => ['required', 'string', 'max:255'],
-            // 'NID' => ['required', 'string', 'max:255'],
-            // 'dateOfBirth' => ['required', 'date'],
-            // 'nomenyName' => ['required', 'string', 'max:255'],
-            // 'nomenyRelation' => ['required', 'string', 'max:255'],
+            'securityPin' => ['required', new checkPin, new pinUseAble],
+            'fathersName' => ['required', 'string', 'max:255'],
+            'mothersName' => ['required', 'string', 'max:255'],
+            'NID' => ['required', 'string', 'max:255'],
+            'dateOfBirth' => ['required', 'date'],
+            'nomenyName' => ['required', 'string', 'max:255'],
+            'nomenyRelation' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -70,6 +74,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        SecurityPin::where('pin',$data['securityPin'])->update([
+            // 'registered_user_id' => Auth::user()->id,
+            'registered_status' => 1,
+        ]);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
