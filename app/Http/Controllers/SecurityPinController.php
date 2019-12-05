@@ -33,32 +33,32 @@ class SecurityPinController extends Controller
             }
 
             return $randomString;
-        }
-        //collect all pin and push on a array
-        $data = SecurityPin::all('pin');
-        $a=array();
-        foreach ($data as $key => $value) {
-            array_push($a,$value->pin);
-        }
-        // print_r($a);
-        // if (in_array("2eT#IuDgV90_", $a)){
-        //     echo "Match";
-        // }
-        $counter = 0;
-        for ($i=0; $i < $generate; $i++) {
-            $pin = getName($digit);
-            echo "<b>".$pin."</b>"."<br><br>";
-            //if the pin does not exists the pin will be inserted
-            if (!in_array($pin, $a)){
-                $checkCounter = SecurityPin::insert([
-                    'pin' => $pin,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-                if ($checkCounter) {
-                    $counter++;
-                }
             }
+            //collect all pin and push on a array
+            $data = SecurityPin::all('pin');
+            $a=array();
+            foreach ($data as $key => $value) {
+                array_push($a,$value->pin);
+            }
+            // print_r($a);
+            // if (in_array("2eT#IuDgV90_", $a)){
+            //     echo "Match";
+            // }
+            $counter = 0;
+            for ($i=0; $i < $generate; $i++) {
+                $pin = getName($digit);
+                echo "<b>".$pin."</b>"."<br><br>";
+                //if the pin does not exists the pin will be inserted
+                if (!in_array($pin, $a)){
+                    $checkCounter = SecurityPin::insert([
+                        'pin' => $pin,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                    if ($checkCounter) {
+                        $counter++;
+                    }
+                }
         }
 
         return back()->with('greenStatus',$counter.' Pin Created Successfully');
@@ -71,5 +71,10 @@ class SecurityPinController extends Controller
     function removePin($pinId){
         SecurityPin::findOrFail($pinId)->delete();
         return back()->with('greenStatus','Pin Removed');
+    }
+    function userRegisteredPin()
+    {
+        $registeredPin = SecurityPin::where('registered_status',1)->paginate(20);
+        return view("SecutiryPin.userRegisteredPin",compact('registeredPin'));
     }
 }

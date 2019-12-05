@@ -287,7 +287,7 @@
                                 <a href="javascript: void(0);"><i class="fa fa-key"></i><span> Secutiry Pin </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="{{Route('unusedPin')}}">Unused Pin</a></li>
-                                    <li><a href="#">User Registered Pin</a></li>
+                                    <li><a href="{{Route('userRegisteredPin')}}">User Registered Pin</a></li>
                                     <li><a href="{{Route('createSecurityPin')}}">Create Pins</a></li>
                                 </ul>
                             </li>

@@ -8,6 +8,7 @@ use App\Rules\pinUseAble;
 use App\SecurityPin;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -74,14 +75,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        SecurityPin::where('pin',$data['securityPin'])->update([
-            // 'registered_user_id' => Auth::user()->id,
-            'registered_status' => 1,
-        ]);
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+            ]);
+            $id= $user->id; // Get current user id
+
+            SecurityPin::where('pin',$data['securityPin'])->update([
+                'registered_user_id' => $id,
+                'registered_status' => 1,
+                'updated_at' => Carbon::now(),
+            ]);
+        return $user;
     }
 }

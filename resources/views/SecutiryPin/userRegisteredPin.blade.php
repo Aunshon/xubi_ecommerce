@@ -27,18 +27,33 @@ Manage Products
     <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">w</th>
-            <th scope="col">w</th>
+            <th scope="col">Serial</th>
+            <th scope="col">Pin</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Registered</th>
+            <th scope="col">Pin Created</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Mark</td>
-            <td>Mark</td>
-          </tr>
+            @forelse ($registeredPin as $item)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td><h6>{{$item->pin}}</h6></td>
+                <td><h6>{{App\User::find($item->registered_user_id)->email}}</h6></td>
+                <td>{{$item->updated_at}}</td>
+                <td>{{$item->created_at}}</td>
+            </tr>
+            @empty
+            <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            @endforelse
         </tbody>
       </table>
-
+      {{ $registeredPin->links() }}
 
 
 </div>
