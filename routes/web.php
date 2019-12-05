@@ -95,3 +95,4 @@ Route::get('/saveNewSecurityPin/{digit}/{generate}','SecurityPinController@saveN
 Route::get('/unusedPin','SecurityPinController@unusedPin')->name('unusedPin');
 Route::get('/removePin/{pinId}','SecurityPinController@removePin')->name('removePin');
 Route::get('/userRegisteredPin','SecurityPinController@userRegisteredPin')->name('userRegisteredPin');
+Route::get('/UserInformation','SecurityPinController@UserInformation')->name('UserInformation');

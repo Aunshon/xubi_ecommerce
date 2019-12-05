@@ -292,6 +292,14 @@
                                 </ul>
                             </li>
                             @endif
+                            @if (Auth::user()->role == 3)
+                            <li>
+                                <a href="javascript: void(0);"><i class="fa fa-users"></i><span>Registered Users</span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="{{Route('UserInformation')}}">User Information</a></li>
+                                </ul>
+                            </li>
+                            @endif
 
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-mail"></i><span> Email </span> <span class="menu-arrow"></span></a>

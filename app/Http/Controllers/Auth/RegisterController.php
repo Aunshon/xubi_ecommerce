@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\CustomerInfo;
 use App\Http\Controllers\Controller;
 use App\Rules\checkPin;
 use App\Rules\pinUseAble;
@@ -85,6 +86,17 @@ class RegisterController extends Controller
             SecurityPin::where('pin',$data['securityPin'])->update([
                 'registered_user_id' => $id,
                 'registered_status' => 1,
+                'updated_at' => Carbon::now(),
+            ]);
+            CustomerInfo::insert([
+                'userId' => $id,
+                'fathersName' => $data['fathersName'],
+                'mothersName' => $data['mothersName'],
+                'NID' => $data['NID'],
+                'dateOfBirth' => $data['dateOfBirth'],
+                'nomenyName' => $data['nomenyName'],
+                'nomenyRelation' => $data['nomenyRelation'],
+                'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
         return $user;

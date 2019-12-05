@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerInfo;
 use App\SecurityPin;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -76,5 +78,10 @@ class SecurityPinController extends Controller
     {
         $registeredPin = SecurityPin::where('registered_status',1)->paginate(20);
         return view("SecutiryPin.userRegisteredPin",compact('registeredPin'));
+    }
+    function UserInformation()
+    {
+        $UserInformation = CustomerInfo::paginate(20);
+        return view("SecutiryPin.userInformation",compact('UserInformation'));
     }
 }
