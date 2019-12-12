@@ -1,0 +1,103 @@
+* {
+    margin: 0px;
+    padding: 0px
+}
+
+a {
+    color: #fff
+}
+
+a:hover {
+    text-decoration: none;
+    color: #38c6f4
+}
+
+header {
+    background-color: #16a085;
+    color: #ffffff
+}
+
+header #topbar {
+    padding: 5px 0px
+}
+
+header #topbar .support .icon {
+    display: inline-block
+}
+
+header #topbar .support .icon i {
+    font-size: 50px
+}
+
+header #topbar .support .phone {
+    display: inline-block
+}
+
+header #topbar .support span {
+    display: block
+}
+
+header #topbar .log-in {
+    text-align: right;
+    padding: 5px
+}
+
+header #topbar .log-in input {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px
+}
+
+header #topbar .log-in button {
+    border: none;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #fff;
+    /* background-color: #ed1c24 */
+    background-color: #6c5ce7;
+}
+
+header #navbar .logo i {
+    font-size: 30px
+}
+
+header #navbar .logo img {
+    width: 200px
+}
+
+header #navbar .search {
+    margin: 10px auto
+}
+
+header #navbar .search input {
+    border: none;
+    border-radius: 5px 0px 0px 5px;
+    padding: 5px;
+    font-size: 14px;
+    width: 90%
+}
+
+header #navbar .search button {
+    border: none;
+    margin-left: -4px;
+    background: none
+}
+
+header #navbar .search i {
+    font-size: 19px;
+    height: 32px;
+    background-color: #f47928;
+    padding: 6px;
+    border-radius: 0px 5px 5px 0px
+}
+
+header #navbar .cart {
+    text-align: right;
+    font-size: 30px
+}
+
+
+/*# sourceMappingURL=style.css.map */
