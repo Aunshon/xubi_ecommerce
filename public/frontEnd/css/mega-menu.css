@@ -1,0 +1,29 @@
+.list-group-item{
+    position: relative;
+}
+.mega-cat{
+    position: absolute;
+    top: 0px;
+    left: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    overflow: hidden;
+    width: 500px;
+    display: none;
+}
+.mega-cat .mega-item{
+    width: 45%;
+    margin: 10px;
+    display: inline-block;
+    color: #000000;
+
+}
+.list-group-item:hover .mega-cat{
+    display: block;
+}
+.collaps-cat{
+    display: inline-block;
+}
+.logo{
+    display: inline-block;
+}

@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Street Hawker</title>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    {{--  {{asset('frontEnd/css/animate.css')}}  --}}
+    <link rel="stylesheet" href="{{asset('frontEnd/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('frontEnd/css/mega-menu.css')}}">
+    <link rel="stylesheet" href="{{asset('frontEnd/css/responsive.css')}}">
     <link rel="stylesheet" href="{{asset('frontEnd/css/animate.css')}}">
     <link rel="stylesheet" href="{{asset('frontEnd/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontEnd/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontEnd/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontEnd/sass/style.css')}}">
-    <link rel="stylesheet" href="{{asset('frontEnd/css/style.css')}}">
 </head>
 
 <body>
@@ -25,60 +27,55 @@
                         <div class="icon">
                             <i class="fa fa-headphones" aria-hidden="true"></i>
                         </div>
-                        <div class="phone">
+                        <div class="support-info">
                             <span>For more information call</span>
                             <span>+8801712-345678</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="log-in">
+                            @auth
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{ route('home') }}" class="btn btn-outline-dark">Home</a>
+
+                                <a class="btn btn-outline-danger" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
 
 
 
-                                        @guest
-                                                    <form method="POST" action="{{ route('login') }}">
-                                                            @csrf
-                                                                {{-- <input type="text" placeholder="Email/Phone"> --}}
-                                                                <input id="email" type="email" class=" @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
-                                                                @error('email')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                                @enderror
-                                                                {{-- <input type="password" placeholder="Password"> --}}
-                                                                <input id="password" type="password" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
-                                                                @error('password')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                                @enderror
-                                                                <button>Sign In</button>
-                                                        </form>
 
-                                        @else
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                              </div>
+                            @else
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
 
-                                        <div class="btn-group">
-                                                <a class="btn btn-outline-secondary" href="{{ url('/home') }}">Home</a>
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
 
-                                                <div class="" >
-                                                        <a class="btn btn-outline-secondary" href="{{ route('logout') }}"
-                                                           onclick="event.preventDefault();
-                                                                         document.getElementById('logout-form').submit();">
-                                                            {{ __('Logout') }}
-                                                        </a>
+                                <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
 
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                </div>
-                                                {{-- <button type="button" class="btn btn-secondary">Left</button> --}}
-                                                {{-- <button type="button" class="btn btn-secondary">Middle</button> --}}
-                                                {{-- <button type="button" class="btn btn-secondary">Right</button> --}}
-                                        </div>
-                                        @endguest
-
-
-
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                                <button>Sign In</button>
+                            </form>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}">{{ __('Create a new account?') }}</a>
+                        @endif
+                            {{--  <a href="#">Create a new account</a>  --}}
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -90,8 +87,132 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
+                        <div class="collaps-cat">
+                            <button data-toggle="collapse" data-target="#coll-cat"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                            <div id="coll-cat" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><a href="#">Electronics</a></li>
+                                    <li  class="list-group-item"><a href="#">Smartphones & Tablets</a><i class="fa fa-caret-right" aria-hidden="true"></i>
+                                    <div class="mega-cat">
+                                            <ul class="list-group list-group-flush mega-item ">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item ">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item ">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item ">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                                <li class="list-group-item"><a href="#">Smartphones</a></li>
+                                            </ul>
+                                    </div>
+                                    </li>
+                                    <li  class="list-group-item"><a href="#">Health & Beauty</a></li>
+                                    <li  class="list-group-item"><a href="#">Toys & Hobbies</a></li>
+                                    <li  class="list-group-item"><a href="#">Sports & Outdooors</a><i class="fa fa-caret-right" aria-hidden="true"></i>
+                                        <div class="mega-cat ">
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                                <li class="list-group-item"><a href="#">Outdooors</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li  class="list-group-item"><a href="#">Furniture</a></li>
+                                    <li  class="list-group-item"><a href="#">Automotive & Motorcycle</a><i class="fa fa-caret-right" aria-hidden="true"></i>
+                                        <div class="mega-cat">
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                            </ul>
+                                            <ul class="list-group list-group-flush mega-item">
+                                                <li class="list-group-item" style="font-weight: bold;">Category Name</li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                                <li class="list-group-item"><a href="#">Automotive</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li  class="list-group-item"><a href="#">Laptops & Accessories</a></li>
+                                    <li  class="list-group-item"><a href="#">Jewelry & Watches</a></li>
+                                    <li  class="list-group-item"><a href="#">Flashlights & Lamps</a></li>
+                                    <li  class="list-group-item"><a href="#">Bags, Shoes & Accessories</a></li>
+                                    <li  class="list-group-item"><a href="#">Cameras & Photo</a></li>
+                                    <li  class="list-group-item"><a href="#">Holiday Supplies & Gifts</a></li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="logo">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
                             <img src="{{asset('frontEnd/img/Logo.png')}}" alt="">
                         </div>
                     </div>
@@ -105,7 +226,7 @@
                     </div>
                     <div class=" cart col-md-3">
                         <span>Shopping Cart</span>
-                        <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
@@ -231,12 +352,12 @@
     <div id="count">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-12">
                     <div class="leftsidead">
                         <img src="{{asset('frontEnd/img/id-20-banner-4.jpg')}}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-6">
+                <div class="col-lg-9 col-md-12">
                     <div class="deals">
                         <div class="block-content clearfix">
                             <div class="thumbnail">
@@ -277,7 +398,8 @@
                                                 <h2><a href="#">Gants Striker 2 Revit Mcom</a></h2>
                                             </div>
                                             <div class="product-des">
-                                                Dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue
+                                                Dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
+                                                dignissim qui blandit praesent luptatum zzril delenit augue
                                             </div>
                                             <div class="product-review">
                                                 <div class="rating" title="100%">
@@ -425,14 +547,485 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container active" id="new-product">
-                                <div class="product-slide ">
-                                    <div class="items">
-                                        <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane container fade" id="toprating">...</div>
-                            <div class="tab-pane container fade" id="mostselling">...</div>
+                            <div class="tab-pane container fade" id="toprating">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="mostselling">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="banner-ad">
@@ -450,23 +1043,23 @@
                         <div class="content-box">
                             <div class="parent-cat">
                                 <div class="img-cat">
-                                    <img src="{{asset('frontEnd/img/icon-electronic.png')}}" alt="">
+                                    <img src="{{asset('frontEnd/img/cat-fashion.png')}}" alt="">
                                 </div>
                                 <div class="cat-title">
-                                    <a href="#">electronics</a>
+                                    <a href="#">fashion</a>
                                 </div>
                             </div>
                             <ul class="sub-cat">
-                                <li><a href="#">TV & Video</a></li>
-                                <li><a href="#">Home Audio & Theater</a></li>
-                                <li><a href="#">Headphones</a></li>
-                                <li><a href="#">Car Electronics</a></li>
-                                <li><a href="#">Musical Instruments</a></li>
-                                <li><a href="#">Monitor</a></li>
+                                <li><a href="#">Men's Clothings</a></li>
+                                <li><a href="#">Women's Clothings</a></li>
+                                <li><a href="#">Kid's Styles</a></li>
+                                <li><a href="#">Shoes</a></li>
+                                <li><a href="#">Watches & Jewelry</a></li>
+                                <li><a href="#">jacket</a></li>
+                                <li><a href="#">Handbags</a></li>
                                 <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Drives & Storage</a></li>
-                                <li><a href="#">Printeres & Ink</a></li>
-                                <li><a href="#">Electronics Showcase</a></li>
+                                <li><a href="#">Sport</a></li>
+                                <li><a href="#">Bikini & Underwear</a></li>
                             </ul>
                         </div>
                     </div>
@@ -489,14 +1082,485 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container active" id="new-product">
-                                <div class="product-slide ">
-                                    <div class="items">
-                                        <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane container fade" id="toprating">...</div>
-                            <div class="tab-pane container fade" id="mostselling">...</div>
+                            <div class="tab-pane container fade" id="toprating">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="mostselling">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="banner-ad">
@@ -514,23 +1578,21 @@
                         <div class="content-box">
                             <div class="parent-cat">
                                 <div class="img-cat">
-                                    <img src="{{asset('frontEnd/img/icon-electronic.png')}}" alt="">
+                                    <img src="{{asset('frontEnd/img/icon-furniture.png')}}" alt="">
                                 </div>
                                 <div class="cat-title">
-                                    <a href="#">electronics</a>
+                                    <a href="#">furniture</a>
                                 </div>
                             </div>
                             <ul class="sub-cat">
-                                <li><a href="#">TV & Video</a></li>
-                                <li><a href="#">Home Audio & Theater</a></li>
-                                <li><a href="#">Headphones</a></li>
-                                <li><a href="#">Car Electronics</a></li>
-                                <li><a href="#">Musical Instruments</a></li>
-                                <li><a href="#">Monitor</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Drives & Storage</a></li>
-                                <li><a href="#">Printeres & Ink</a></li>
-                                <li><a href="#">Electronics Showcase</a></li>
+                                <li><a href="#">Kichen & Diring</a></li>
+                                <li><a href="#">Bedding & Bath</a></li>
+                                <li><a href="#">Appliances</a></li>
+                                <li><a href="#">Pet Supplies</a></li>
+                                <li><a href="#">Fine Art</a></li>
+                                <li><a href="#">Arts, Craft & Sewing</a></li>
+                                <li><a href="#">Smart Home</a></li>
+                                <li><a href="#">Hardware</a></li>
                             </ul>
                         </div>
                     </div>
@@ -553,14 +1615,485 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container active" id="new-product">
-                                <div class="product-slide ">
-                                    <div class="items">
-                                        <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane container fade" id="toprating">...</div>
-                            <div class="tab-pane container fade" id="mostselling">...</div>
+                            <div class="tab-pane container fade" id="toprating">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="mostselling">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="banner-ad">
@@ -578,23 +2111,22 @@
                         <div class="content-box">
                             <div class="parent-cat">
                                 <div class="img-cat">
-                                    <img src="{{asset('frontEnd/img/icon-electronic.png')}}" alt="">
+                                    <img src="{{asset('frontEnd/img/icon-toys.png')}}" alt="">
                                 </div>
                                 <div class="cat-title">
-                                    <a href="#">electronics</a>
+                                    <a href="#">toys & babies</a>
                                 </div>
                             </div>
                             <ul class="sub-cat">
-                                <li><a href="#">TV & Video</a></li>
-                                <li><a href="#">Home Audio & Theater</a></li>
-                                <li><a href="#">Headphones</a></li>
-                                <li><a href="#">Car Electronics</a></li>
-                                <li><a href="#">Musical Instruments</a></li>
-                                <li><a href="#">Monitor</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">Drives & Storage</a></li>
-                                <li><a href="#">Printeres & Ink</a></li>
-                                <li><a href="#">Electronics Showcase</a></li>
+                                <li><a href="#">Interactive Toys</a></li>
+                                <li><a href="#">Gyms & Playmats</a></li>
+                                <li><a href="#">Car Seat Toy</a></li>
+                                <li><a href="#">Teethers</a></li>
+                                <li><a href="#">Crib Toys</a></li>
+                                <li><a href="#">Stacking Toys</a></li>
+                                <li><a href="#">Stuffed Animals</a></li>
+                                <li><a href="#">Bath Toys</a></li>
+                                <li><a href="#">Push Toy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -617,14 +2149,485 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane container active" id="new-product">
-                                <div class="product-slide ">
-                                    <div class="items">
-                                        <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane container fade" id="toprating">...</div>
-                            <div class="tab-pane container fade" id="mostselling">...</div>
+                            <div class="tab-pane container fade" id="toprating">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane container fade" id="mostselling">
+                                <div class="product-slide owl-carousel">
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov ">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-item">
+                                        <div class="pro-img">
+                                            <img src="{{asset('frontEnd/img/iphone_6s_plus_red_case_2.jpg')}}" alt="">
+                                            <div class="pro-hov">
+                                                <div class="hov-link">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pro-des">
+                                            <a href="#" class="pro-link">Iphone 6s plus red case</a>
+                                            <div class="pro-review">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <span class="pro-price">$250</span>
+                                            </div>
+                                        </div>
+                                        <div class="pro-cart">
+                                            <button>Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="banner-ad">
@@ -646,7 +2649,7 @@
                         <h2>Featured Product</h2>
                     </div>
                     <div class="filter-items">
-                        <div class="filter-item">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/funiture_6_2.jpg')}}" alt=""></a>
                             </div>
@@ -666,7 +2669,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item col-md-4">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/fashion_2_1.jpg')}}" alt=""></a>
                             </div>
@@ -686,7 +2689,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item col-md-4">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/4_9.jpg')}}" alt=""></a>
                             </div>
@@ -706,7 +2709,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item col-md-4">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/8_6.jpg')}}" alt=""></a>
                             </div>
@@ -726,7 +2729,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item col-md-4">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/10_5.jpg')}}" alt=""></a>
                             </div>
@@ -746,7 +2749,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item col-md-4">
+                        <div class="filter-item col-md-6">
                             <div class="flp-img">
                                 <a href="#"><img src="{{asset('frontEnd/img/funiture_2_2.jpg')}}" alt=""></a>
                             </div>
@@ -782,6 +2785,7 @@
         </div>
     </div>
     <!--filter product end here-->
+    <!--newsletter start here-->
     <div id="newsletter">
         <div class="container">
             <div class="news-title">
@@ -800,20 +2804,169 @@
             </div>
         </div>
     </div>
-
+    <!--Newsletter end here-->
+    <!--Footer start here-->
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-top col-md-12">
+                    <div class=" contact">
+                        <div class="contact-title">
+                            <h2>contact us</h2>
+                        </div>
+                        <div class="contact-details">
+                            <div class="address">
+                                <div class="address-icon">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                </div>
+                                <div class="address-text">
+                                    <p>Address: No 40 Baria Sreet 133/2 <br> NewYork City, NY, United States</p>
+                                </div>
+                            </div>
+                            <div class="mail">
+                                <div class="mail-icon">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="mail-text">
+                                    <p>Email:contact@streethawker.com</p>
+                                </div>
+                            </div>
+                            <div class="phone">
+                                <div class="phone-icon">
+                                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                                </div>
+                                <div class="phone-text">
+                                    <p>Phone 1 : 0123456789 <br>
+                                        Phone 2 : 0123456789</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" service">
+                        <div class="service-title">
+                            <h2>our services</h2>
+                        </div>
+                        <ul class="service-list list-group">
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">About Us</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">New Collection</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">Contact Us</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">FAQs</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">Latest News</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a class="list-group-link" href="#">Our Sitemap</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="latest-news">
+                        <div class="title">
+                            <h2>latest news</h2>
+                        </div>
+                        <div class="post-box">
+                            <div class="post-item">
+                                <div class="post-img">
+                                    <img src="{{asset('frontEnd/img/blo2.jpg')}}" alt="">
+                                </div>
+                                <div class="post-text">
+                                    <a href="#" class="post-link">Black Friday event Dec 2016.</a>
+                                    <span class="date">2019/12/12</span>
+                                </div>
+                            </div>
+                            <div class="post-item">
+                                <div class="post-img">
+                                    <img src="{{asset('frontEnd/img/blo4.jpg')}}" alt="">
+                                </div>
+                                <div class="post-text">
+                                    <a href="#" class="post-link">How to install Magento on XAMPP?</a>
+                                    <span class="date">2019/12/12</span>
+                                </div>
+                            </div>
+                            <div class="post-item">
+                                <div class="post-img">
+                                    <img src="{{asset('frontEnd/img/blo5.jpg')}}" alt="">
+                                </div>
+                                <div class="post-text">
+                                    <a href="#" class="post-link">Magento Community Edition Released
+                                    </a>
+                                    <span class="date">2019/12/12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="image-box">
+                        <div class="title">
+                            <h2>our Theme</h2>
+                        </div>
+                        <img src="{{asset('frontEnd/img/images.jpg')}}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="social-bar">
+        <div class="container">
+            <div class="col-md-12 col-lg-12">
+                <div class="social-nav">
+                    <div class="item">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </div>
+                    <div class="item">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </div>
+                    <div class="item">
+                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    </div>
+                    <div class="item">
+                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </div>
+                    <div class="item">
+                        <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Footer end here-->
+    <!--copyright start here-->
+    <div id="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="copy-text col-md-6">
+                    <p>© 2019 All Rights Reserved. Designed by <a href="#">Streethawker.com</a></p>
+                </div>
+                <div class="payment-opt col-md-6">
+                    <div class="payment-items">
+                        <img src="{{asset('frontEnd/img/payment-id15.png')}}" alt="" class="item">
+                        <img src="{{asset('frontEnd/img/bkash.png')}}" alt="" class="item bkash">
+                        <img src="{{asset('frontEnd/img/rocket.jpg')}}" alt="" class="item rocket">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--copyright end here-->
 
     <!--script code here-->
     <script src="{{asset('frontEnd/js/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('frontEnd/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('frontEnd/js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('frontEnd/js/wow.min.js')}}"></script>
+    <script src="{{asset('frontEnd/js/owl.carousel.js')}}"></script>
     <script src="{{asset('frontEnd/js/countdown.js')}}"></script>
-    <script src="{{asset('frontEnd/https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js')}}" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('#clock').countdown('2020/10/10').on('update.countdown', function(event) {
+            $('#clock').countdown('2020/10/10').on('update.countdown', function (event) {
                 var $this = $(this).html(event.strftime('' +
                     '<div><span>%-w</span> Week%!w </div>' +
                     '<div><span>%-d</span> Day%!d</div> ' +
@@ -821,7 +2974,30 @@
                     '<div><span>%M</span> Min</div> ' +
                     '<div><span>%S</span> Sec</div>'));
             });
-
+            $('.product-slide').owlCarousel({
+                items: 4,
+                dots: false,
+                margin: 10,
+                lazyLoad: true,
+                nav: true,responsiveClass: true,
+                responsive: {
+                    1000: {
+                        items: 4,
+                    },
+                    768: {
+                        items: 2,
+                    },
+                    414: {
+                        items: 1,
+                    },
+                    375: {
+                        items: 1,
+                    },
+                    360: {
+                        items: 1,
+                    }
+                }
+            });
 
 
         });

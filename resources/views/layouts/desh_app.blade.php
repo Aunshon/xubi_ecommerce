@@ -226,6 +226,7 @@
                                 <a href="javascript: void(0);"><i class="fi-target"></i> <span> Category </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('manage_categories')}} ">Manage Categories</a></li>
+                                    <li><a href=" {{Route('manage_sub_categories')}} ">Manage Sub Categories</a></li>
                                 </ul>
                             </li>
                             @endif

@@ -1,0 +1,121 @@
+@media(max-width:450px) {
+    .contact, .service, .latest-news, .image-box{
+        width: 100% !important;
+        text-align: center !important;
+    }
+    .news-title, .news-input{
+        width: 100% !important;
+    }
+    .news-input input{
+        width: 70% !important;
+    }
+    #brand{
+        text-align: center;
+    }
+    .filter-item{
+        width: 45% !important;
+    }
+    .owl-nav{
+        display: none;
+    }
+    .product-slide{
+        margin-top: 0px !important;
+    }
+    .nav-pills li{
+        width: 100% !important;
+    }
+    .nav-pills li a{
+        font-size: 15px !important;
+    }
+    .sub-cat li{
+        margin: 10px 0px !important;
+    }
+    .banner-ad img{
+        width: 100%;
+    }
+    .cart{
+        position: absolute !important;
+        right: 10px;
+        width: 50px !important;
+    }
+    .cart span{
+        display: none;
+    }
+    .leftsidead img{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .grid-sys{
+        float: right !important;
+        width: 70% !important;
+        margin-top: 25px !important;
+    }
+    .deals .box-img{
+        width: 100% !important;
+    }
+    .deals .product-details{
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+    .address, .mail, .phone{
+        text-align: center !important;
+    }
+}
+@media(max-width:375px){
+    .grid-sys{
+        float: right !important;
+        width: 60% !important;
+        margin-top: 25px !important;
+    }
+}
+@media(max-width:768px){
+    .logo img{
+        width: 110px !important;
+    }
+    .cart span{
+        display: none;
+    }
+    .banner-ad img{
+        width: 155px;
+    }
+    .leftsidead{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .deals .box-img a img {
+
+        max-width: 80%;
+        margin-left: 20px;
+    
+    }
+    #filterproduct .filterinner .filter-items .filter-item .flp-des .flp-title a {
+
+        font-size: 13px !important;
+        margin: 10px 0px;
+    
+    }
+    #filterproduct .filterinner .filter-items .filter-item {
+
+        width: 47% !important;
+        margin: 5px;
+        padding: 0px !important;
+        float: left;
+    
+    }
+    #brand{
+        text-align: center;
+    }
+    #newsletter .news-title {
+
+        width: 100% !important;
+    }
+    #newsletter .news-input {
+
+        width: 100% !important;
+    }
+    #footer .footer-top .contact, .service, .latest-news, .image-box {
+
+        overflow: hidden;
+        width: 48% !important;
+    }
+}

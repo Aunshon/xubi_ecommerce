@@ -6,6 +6,7 @@ use App\Brand;
 use App\category;
 use App\product;
 use App\SalerRegisterBrand;
+use App\sub_category;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,6 +54,12 @@ class HomeController extends Controller
         $allCaregories = category::all();
         return view('deshboard.manage_categories',compact('allCaregories'));
     }
+    function manage_sub_categories()
+    {
+        $allCaregories = category::all();
+        $allSubCaregories = sub_category::all();
+        return view('deshboard.manage_sub_categories',compact('allCaregories','allSubCaregories'));
+    }
     function saveNewCategory(Request $request)
     {
         // print_r($request->all());
@@ -70,6 +77,21 @@ class HomeController extends Controller
         ]);
 
         return back()->with('greenStatus','New Category Added 👍');
+    }
+    function saveNewSubCategory(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+            'sub_category_name' => 'required',
+        ]);
+        $test = sub_category::insert([
+            'sub_category_name'=> $request->sub_category_name,
+            'categoryId' => $request->category,
+            'activation' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return back()->with('greenStatus','Sub Category Added 👍');
     }
     function deleteCategory($id)
     {

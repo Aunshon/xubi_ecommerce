@@ -490,6 +490,7 @@ class ComposerStaticInitd28b32f7590098d92319d3f23ef72080
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\category' => __DIR__ . '/../..' . '/app/category.php',
         'App\\product' => __DIR__ . '/../..' . '/app/product.php',
+        'App\\sub_category' => __DIR__ . '/../..' . '/app/sub_category.php',
         'Brian2694\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Facades/Toastr.php',
         'Brian2694\\Toastr\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Toastr.php',
         'Brian2694\\Toastr\\ToastrServiceProvider' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/ToastrServiceProvider.php',

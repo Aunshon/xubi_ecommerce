@@ -48,6 +48,7 @@ return array(
     'App\\User' => $baseDir . '/app/User.php',
     'App\\category' => $baseDir . '/app/category.php',
     'App\\product' => $baseDir . '/app/product.php',
+    'App\\sub_category' => $baseDir . '/app/sub_category.php',
     'Brian2694\\Toastr\\Facades\\Toastr' => $vendorDir . '/brian2694/laravel-toastr/src/Facades/Toastr.php',
     'Brian2694\\Toastr\\Toastr' => $vendorDir . '/brian2694/laravel-toastr/src/Toastr.php',
     'Brian2694\\Toastr\\ToastrServiceProvider' => $vendorDir . '/brian2694/laravel-toastr/src/ToastrServiceProvider.php',

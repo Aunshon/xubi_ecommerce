@@ -13,7 +13,7 @@ a:hover {
 }
 
 header {
-    background-color: #16a085;
+    background-color: #00552e;
     color: #ffffff
 }
 
@@ -56,8 +56,7 @@ header #topbar .log-in button {
     border-radius: 5px;
     font-weight: bold;
     color: #fff;
-    /* background-color: #ed1c24 */
-    background-color: #6c5ce7;
+    background-color: #ed1c24
 }
 
 header #navbar .logo i {
