@@ -44,9 +44,10 @@
                             <label>Product Price</label>
                             <input value=" {{old('product_price')}} " name="product_price" type="number" class="form-control"  aria-describedby="emailHelp" placeholder="Enter product price">
                         </div>
+                        {{-- //Caregory --}}
                         <div class="form-group">
                             <label>Select category</label>
-                            <select name="category" class="form-control" id="exampleFormControlSelect1">
+                            <select id="category" name="category" class="form-control" id="exampleFormControlSelect1">
                                 @forelse ($allcategory as $item)
                                 @if ($item->activation != 0)
                                 <option value=" {{$item->id}} "> {{$item->category_name}} </option>
@@ -56,6 +57,16 @@
                                 @endforelse
                             </select>
                         </div>
+                    {{-- //Sub Categtegory --}}
+                        <div class="form-group">
+                            <label>Select sub category</label>
+                            <select id="subcategory" name="subcategory" class="form-control" id="exampleFormControlSelect1">
+
+                                <option value="0"> Select One * </option>
+
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label>select a brand</label>
                             <select name="brand" class="form-control" id="exampleFormControlSelect1">
@@ -192,6 +203,39 @@
                             location.href = "{{__("deleteproduct")}}/"+id;
                             // alert("{{__("deletecategory")}}/"+id);
                         }
+                    }
+                </script>
+                <script>
+                    //variable
+                    var subcategory=document.getElementById('subcategory');
+                    var category=document.getElementById('category');
+
+                    //event Listener
+                    category.addEventListener('change',categoryChange);
+
+
+                    //funcjiton
+                    function categoryChange() {
+                        var categoryId = this.value;
+
+                    //ajax strart
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                    type:'POST',
+                    url:'/getSubCategory',
+                    data: {categoryId: categoryId},
+                        success: function (data) {
+                            // $( "#company_upazilla" ).html(data);
+                            // alert(data);
+                            $('#subcategory').html(data);
+                        }
+                    });
+                    //ajax end
+
                     }
                 </script>
 

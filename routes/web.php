@@ -37,17 +37,20 @@ Route::get('/Banded', function(){
 Route::get('/deshboard', 'HomeController@deshboard')->name('deshboard');
 //Category
 Route::get('/manage_categories', 'HomeController@manage_categories')->name('manage_categories');
-Route::get('/manage_sub_categories', 'HomeController@manage_sub_categories')->name('manage_sub_categories');
-
-
 Route::post('/saveNewCategory', 'HomeController@saveNewCategory')->name('saveNewCategory');
-Route::post('/saveNewSubCategory', 'HomeController@saveNewSubCategory')->name('saveNewSubCategory');
-
 Route::get('/editcategory', 'HomeController@editcategory');
 Route::get('/deletecategory/{categoryId}', 'HomeController@deletecategory');
 Route::get('/changeCategoryActivation/{categoryId}/{activaiton}', 'HomeController@changeCategoryActivation');
 Route::get('/editcategory/{categoryId}', 'HomeController@editcategory');
 Route::post('/updateCategory', 'HomeController@updateCategory')->name('updateCategory');
+
+
+
+//sub category
+Route::get('/manage_sub_categories', 'HomeController@manage_sub_categories')->name('manage_sub_categories');
+Route::post('/saveNewSubCategory', 'HomeController@saveNewSubCategory')->name('saveNewSubCategory');
+Route::post('/getSubCategory', 'HomeController@getSubCategory')->name('getSubCategory');
+
 //Product
 Route::get('/manage_product', 'HomeController@manage_product')->name('manage_product');
 Route::post('/saveNewProduct', 'HomeController@saveNewProduct')->name('saveNewProduct');

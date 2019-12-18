@@ -155,6 +155,7 @@ class HomeController extends Controller
             'product_name' => 'required',
             'product_price' => 'required|numeric',
             'category' => 'required|numeric',
+            'subcategory' => 'required|numeric',
             'activation' => 'required|numeric',
             'brand' => 'required|numeric',
             'description' => 'required',
@@ -167,6 +168,7 @@ class HomeController extends Controller
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
             'category' => $request->category,
+            'sub_category' => $request->subcategory,
             'activation' => $request->activation,
             'brand' => $request->brand,
             'description' => $request->description,
@@ -458,4 +460,16 @@ class HomeController extends Controller
         }
         return back();
     }
+    function getSubCategory(Request $request)
+    {
+        $data="";
+       $allData=sub_category::where('categoryId',$request->categoryId)->get();
+       foreach ($allData as $value) {
+            $data.="<option value=".$value->id.">".$value->sub_category_name."</option>";
+       }
+       echo $data;
+    }
+
+
+    //last bracket here
 }

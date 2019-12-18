@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('product_name')->default('No Name');
             $table->integer('quantity')->default(0);
             $table->integer('category')->default(1);
+            $table->integer('sub_category')->default(1);
             $table->integer('brand')->default(0);
             $table->integer('product_price')->default(00);
             $table->longText('description')->default('No Description Given');
