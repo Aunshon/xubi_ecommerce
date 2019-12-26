@@ -36,11 +36,15 @@ Manage Categories
               <div class="modal-body">
                 <button data-dismiss="modal" class="close">&times;</button>
                 <h4>Add new category</h4>
-              <form action="{{ Route('saveNewCategory') }}" method="POST">
+              <form action="{{ Route('saveNewCategory') }}" method="POST" enctype="multipart/form-data" >
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Category Name</label>
                     <input name="category_name" type="text" class="form-control"  aria-describedby="emailHelp" placeholder="Enter category name">
+                </div>
+                <div class="form-group">
+                    <label for="category_photo">Photo</label>
+                    <input name="category_photo" type="file" class="form-control" accept="image/*">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Select Activation</label>
@@ -66,6 +70,7 @@ Manage Categories
                 <thead class="table-dark">
                     <tr>
                     <th scope="col">Category Name</th>
+                    <th scope="col">Category Name</th>
                     <th scope="col">Activation</th>
                     <th scope="col">Aditional Informaiton</th>
                     <th scope="col">Actions</th>
@@ -75,6 +80,7 @@ Manage Categories
                     @forelse ($allCaregories as $item)
                     <tr>
                     <th scope="row">{{$item->category_name}}</th>
+                    <td> <img src="{{asset('frontEnd/img/vertical-menu/')}}/{{$item->category_photo}}" alt="Sorry" width="20px" height="20px"> </td>
                     <td>
                         @if ($item->activation == 1)
                             <a class="btn btn-success" href=" {{__('changeCategoryActivation')}}/{{$item->id}}/{{$item->activation}} ">Active</a>

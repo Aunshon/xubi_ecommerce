@@ -67,14 +67,26 @@ class HomeController extends Controller
             'category_name' => 'required',
             'activation' => 'required|numeric',
             'aditional_information' => 'required',
+            'category_photo' => 'required',
         ]);
 
-        category::insert([
+        $lastId = category::insertGetId([
             'category_name' => $request->category_name,
             'activation' => $request->activation,
             'aditional_information' => $request->aditional_information,
             'created_at' => Carbon::now(),
         ]);
+
+        if ($request->hasFile('category_photo')) {
+            $photo = $request->category_photo;
+            $photoName = $lastId . '.' . $photo->getClientOriginalExtension();
+            Image::make($photo)->resize(20, 20)->save(base_path("public/frontEnd/img/vertical-menu/" . $photoName), 100);
+            // Image::make($photo)->resize(20, 20)->save(base_path("public/frontEnd/img/" . $photoName), 100);
+            category::findOrFail($lastId)->update([
+                'category_photo' => $photoName,
+            ]);
+            echo $photoName;
+        }
 
         return back()->with('greenStatus','New Category Added 👍');
     }
@@ -184,7 +196,7 @@ class HomeController extends Controller
             product::findOrFail($lastId)->update([
                 'photo' => $photoName,
                 ]);
-            }
+        }
 
             // return back()->with('greenStatus','Product Added Successfully 👍');
             return redirect('manage_product')->with('greenStatus','Product Added Successfully 👍');
@@ -469,6 +481,7 @@ class HomeController extends Controller
        }
        echo $data;
     }
+
 
 
     //last bracket here

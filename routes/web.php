@@ -12,6 +12,10 @@
 */
 
 Route::get('/', function () {
+    // $allProduct = App\product::all();
+    // $category = App\category::all();
+    // $sub_category = App\sub_category::all();
+    // return view('welcome',compact('allProduct','category','sub_category'));
     return view('welcome');
 });
 
@@ -104,3 +108,5 @@ Route::get('/unusedPin','SecurityPinController@unusedPin')->name('unusedPin');
 Route::get('/removePin/{pinId}','SecurityPinController@removePin')->name('removePin');
 Route::get('/userRegisteredPin','SecurityPinController@userRegisteredPin')->name('userRegisteredPin');
 Route::get('/UserInformation','SecurityPinController@UserInformation')->name('UserInformation');
+
+Route::get('/getSubCategory','CartController@getSubCategory');

@@ -10,5 +10,6 @@ class category extends Model
         'category_name',
         'activation',
         'aditional_information',
+        'category_photo',
 ];
 }

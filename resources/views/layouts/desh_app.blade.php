@@ -243,7 +243,7 @@
                             @endif
                             @if (Auth::user()->role == 3)
                             <li>
-                                <a href="javascript: void(0); "><i class="fi-marquee-plus"></i> <span> Brands </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript: void(0); "><i class="fi-marquee-plus"></i> <span> Brand management </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('allBrand')}} ">All Brands</a></li>
                                     <li><a href=" {{Route('brandRequest')}} ">brand Request</a></li>
@@ -251,9 +251,9 @@
                                 </ul>
                             </li>
                             @endif
-                            @if (Auth::user()->role == 2)
+                            @if (Auth::user()->role == 2 || Auth::user()->role == 3)
                             <li>
-                                <a href=" {{Route('salerbrand')}} "><i class="fi-marquee-plus"></i> <span> Brands </span> <span class="menu-arrow"></span></a>
+                                <a href=" {{Route('salerbrand')}} "><i class="fi-marquee-plus"></i> <span> My Brands </span> <span class="menu-arrow"></span></a>
                                 {{-- <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href=" {{Route('manage_product')}} ">Manage My Product</a></li>
                                 </ul> --}}

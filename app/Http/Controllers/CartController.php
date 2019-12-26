@@ -108,4 +108,13 @@ class CartController extends Controller
     {
         print_r($request->all());
     }
+    function getSubCategory()
+    {
+        $sub_category = App\sub_category::all();
+        $data='m';
+        foreach ($sub_category as $key => $value) {
+            $data="gg";
+        }
+        echo $data;
+    }
 }
