@@ -110,3 +110,5 @@ Route::get('/userRegisteredPin','SecurityPinController@userRegisteredPin')->name
 Route::get('/UserInformation','SecurityPinController@UserInformation')->name('UserInformation');
 
 Route::get('/getSubCategory','CartController@getSubCategory');
+//product View
+Route::get('/product/view/{product_id}','CartController@productview');

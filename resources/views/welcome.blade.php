@@ -5,21 +5,27 @@
 <div class="slider-wrapper theme-default">
     <!-- Slider Background  Image Start-->
     <div id="slider" class="nivoSlider">
-        <a href="shop.html"><img src="{{asset('frontEnd/img/slider/1.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/1.jpg')}}" alt="" title="#htmlcaption" /></a>
-        <a href="shop.html"><img src="{{asset('frontEnd/img/slider/2.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/2.jpg')}}" alt="" title="#htmlcaption2" /></a>
+        <a href="shop.html"><img width="899" height="409" src="{{asset('frontEnd/img/slider/a.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/1.jpg')}}" alt="" title="#htmlcaption" /></a>
+        <a href="shop.html"><img width="899" height="409" src="{{asset('frontEnd/img/slider/b.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/2.jpg')}}" alt="" title="#htmlcaption2" /></a>
+        <a href="shop.html"><img width="899" height="409" src="{{asset('frontEnd/img/slider/c.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/2.jpg')}}" alt="" title="#htmlcaption2" /></a>
+        <a href="shop.html"><img width="899" height="409" src="{{asset('frontEnd/img/slider/d.jpg')}}" data-thumb="{{asset('frontEnd/img/slider/2.jpg')}}" alt="" title="#htmlcaption2" /></a>
     </div>
     <!-- Slider Background  Image Start-->
 </div>
 @endsection
 @section('allContentHere')
 
-
+@php
+    $allProduct = App\product::orderBy('created_at', 'desc');
+    $sub_category = App\sub_category::orderBy('created_at', 'desc')->get();
+    $category = App\category::all();
+@endphp
 <!-- Categorie Menu & Slider Area End Here -->
 <!-- Brand Banner Area Start Here -->
 <div class="image-banner pb-50 off-white-bg">
     <div class="container">
         <div class="col-img">
-            <a href="#"><img src="{{asset('frontEnd/img/banner/h1-banner.jpg')}}" alt="image banner"></a>
+            <a href="#"><img width="1169" height="60" src="{{asset('frontEnd/img/banner/do1.png')}}" alt="image banner"></a>
         </div>
     </div>
     <!-- Container End -->
@@ -291,45 +297,42 @@
                        </div>
                         <!-- Nav tabs -->
                         <ul class="nav tabs-area" role="tablist">
+                            @php
+                                    $allProduct = App\product::all();
+                                    $sub_category = App\sub_category::all();
+                                    $category = App\category::all();
+                                    @endphp
+                            @foreach ($sub_category  as $singleSub)
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#fshion">Fashion</a>
+                                @if ($loop->index == 0)
+                                <a class="nav-link active" data-toggle="tab" href="#subCategory{{$singleSub->id}}">{{$singleSub->sub_category_name}}</a>
+                                @else
+                                <a class="nav-link" data-toggle="tab" href="#subCategory{{$singleSub->id}}">{{$singleSub->sub_category_name}}</a>
+                                @endif
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#beauty">Beauty</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#electronics">Sport/Outdoor</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#kids">Living</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#beauty">Food</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#kids">Baby/Kids</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#electronics">Electronics </a>
-                            </li>
+                            @endforeach
                         </ul>
 
                     </div>
 
                     <!-- Tab Contetn Start -->
                     <div class="tab-content">
-                        <div id="fshion" class="tab-pane fade">
+                        @foreach ($sub_category  as $singleSub)
+                        @if ($loop->index == 0)
+                        <div id="subCategory{{$singleSub->id}}" class="tab-pane active">
                             <!-- Arrivals Product Activation Start Here -->
                             <div class="electronics-pro-active owl-carousel">
                                 <!-- Double Product Start -->
+                                @foreach ($allProduct as $item)
+                                @if ($item->sub_category == $singleSub->id)
                                 <div class="double-product">
-                                    <!-- Single Product Start -->
+
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/2.jpg')}}" alt="single-product">
+                                            <a href="{{url('product/view')}}/{{$item->id}}">
+                                                <img class="primary-img" src="{{asset('uploads/product')}}/{{$item->photo}}" alt="single-product">
+                                                <img class="secondary-img" src="{{asset('uploads/product')}}/{{$item->photo}}" alt="single-product">
                                             </a>
                                             <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
                                         </div>
@@ -337,13 +340,63 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <div class="pro-info">
-                                                <h4><a href="product.html">Work Lamp Silver Proin</a></h4>
-                                                <p><span class="price">$320.45</span><del class="prev-price">$400.50</del></p>
+                                                <h4><a href="product.html">{{$item->product_name}}</a></h4>
+                                                <p><span class="price">${{$item->product_price}}</span>
+                                                    {{-- <del class="prev-price">$400.50</del> --}}
+                                                </p>
+                                                {{-- <div class="label-product l_sale">30<span class="symbol-percent">%</span></div> --}}
+                                            </div>
+                                            <div class="pro-actions">
+                                                <div class="actions-primary">
+                                                    <a href="{{__('add/to/cart')}}/{{$item->id}}" title="Add to Cart"> + Add To Cart</a>
+                                                </div>
+                                                <div class="actions-secondary">
+                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
+                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Product Content End -->
+                                        <span class="sticker-new">new</span>
+                                    </div>
+
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
+                            <!-- Arrivals Product Activation End Here -->
+                        </div>
+                        @else
+                        <div id="subCategory{{$singleSub->id}}" class="tab-pane fade">
+                            <!-- Arrivals Product Activation Start Here -->
+                            <div class="electronics-pro-active owl-carousel">
+                                <!-- Double Product Start -->
+                                @foreach ($allProduct as $item)
+                                @if ($item->sub_category == $singleSub->id)
+                                <div class="double-product">
+
+                                    <div class="single-product">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="{{url('product/view')}}/{{$item->id}}">
+                                                <img class="primary-img" src="{{asset('uploads/product')}}/{{$item->photo}}" alt="single-product">
+                                                <img class="secondary-img" src="{{asset('uploads/product')}}/{{$item->photo}}" alt="single-product">
+                                            </a>
+                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <div class="pro-info">
+                                                <h4><a href="{{url('product/view')}}/{{$item->id}}">{{$item->product_name}}</a></h4>
+                                                <p><span class="price">${{$item->product_price}}</span>
+                                                    {{-- <del class="prev-price">$400.50</del> --}}
+                                                </p>
                                                 <div class="label-product l_sale">30<span class="symbol-percent">%</span></div>
                                             </div>
                                             <div class="pro-actions">
                                                 <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
+                                                    <a href="{{__('add/to/cart')}}/{{$item->id}}" title="Add to Cart"> + Add To Cart</a>
                                                 </div>
                                                 <div class="actions-secondary">
                                                     <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
@@ -354,1086 +407,15 @@
                                         <!-- Product Content End -->
                                         <span class="sticker-new">new</span>
                                     </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/3.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/4.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Gpoly and Bark Eames Style</a></h4>
-                                                <p><span class="price">$150.30</span><del class="prev-price">$175.50</del></p>
-                                                <div class="label-product l_sale">10<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
+
                                 </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/5.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/6.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/8.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/9.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Eames and Bark  Style</a></h4>
-                                                <p><span class="price">$180.45</span><del class="prev-price">$200.50</del></p>
-                                                <div class="label-product l_sale">18<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/11.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/12.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Eames and Vortex Side</a></h4>
-                                                <p><span class="price">$160.45</span><del class="prev-price">$190.50</del></p>
-                                                <div class="label-product l_sale">12<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/15.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/16.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Bark Vortex Side Eames</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/13.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/14.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/7.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
+                                @endif
+                                @endforeach
                             </div>
                             <!-- Arrivals Product Activation End Here -->
                         </div>
-                        <!-- #fshion End Here -->
-                        <div id="kids" class="tab-pane fade show active">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="electronics-pro-active owl-carousel">
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/42.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/43.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Utensils and Knives Block</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/40.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/41.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Terra Xpress HE Cooking </a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$300.50</del></p>
-                                                <div class="label-product l_sale">25<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/39.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/38.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Robert Welch Knife Block</a></h4>
-                                                <p><span class="price">$100.45</span><del class="prev-price">$150.50</del></p>
-                                                <div class="label-product l_sale">30<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/36.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/37.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$90.50</span><del class="prev-price">$120.50</del></p>
-                                                <div class="label-product l_sale">15<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/35.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/36.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Bark and  Vortex Side</a></h4>
-                                                <p><span class="price">$69.20</span><del class="prev-price">$145.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/34.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/35.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Compary and Bark Vortex Shewe</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/32.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/33.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">kallery kids  weare</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/7.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #fshion End Here -->
-                        <div id="beauty" class="tab-pane fade">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="electronics-pro-active owl-carousel">
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/43.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/42.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/41.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/39.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/5.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/6.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/9.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/10.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/11.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/12.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/3.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/4.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/43.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/42.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/7.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #beauty End Here -->
-                        <div id="electronics" class="tab-pane fade">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="electronics-pro-active owl-carousel">
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/17.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/18.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Flos Chasen S2 Suspension</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/19.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/20.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Country Squire Florist</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/20.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/21.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Concord Fabric Single</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/21.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/22.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/23.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/24.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Gpoly and Bark Eames Style</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/24.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/25.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Vortex and Bark Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                                <!-- Double Product Start -->
-                                <div class="double-product">
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/26.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/27.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Bark and Vortex Side</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                     <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="{{asset('frontEnd/img/products/28.jpg')}}" alt="single-product">
-                                                <img class="secondary-img" src="{{asset('frontEnd/img/products/29.jpg')}}" alt="single-product">
-                                            </a>
-                                            <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="pro-info">
-                                                <h4><a href="product.html">Electronic and Bark Vortex</a></h4>
-                                                <p><span class="price">$84.45</span><del class="prev-price">$105.50</del></p>
-                                                <div class="label-product l_sale">20<span class="symbol-percent">%</span></div>
-                                            </div>
-                                            <div class="pro-actions">
-                                                <div class="actions-primary">
-                                                    <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                                </div>
-                                                <div class="actions-secondary">
-                                                    <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                    <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">new</span>
-                                    </div>
-                                    <!-- Single Product End -->
-                                </div>
-                                <!-- Double Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #electronics End Here -->
+                        @endif
+                        @endforeach
                     </div>
                     <!-- Tab Content End -->
                 </div>
@@ -1450,28 +432,15 @@
                         <div class="section-ttitle">
                             <h2>Best Seller</h2>
                        </div>
+
+
                         <!-- Nav tabs -->
                         <ul class="nav tabs-area" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#electronics2">Electronics </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#beauty2">Beauty</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#electronics2">Sport/Outdoor</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#kids2">Living</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#beauty2">Food</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#kids2">Baby/Kids</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#fshion2">Fashion</a>
+
+
+                                <a class="nav-link active" data-toggle="tab" href="#electronics2">best</a>
+
                             </li>
                         </ul>
 
@@ -1486,7 +455,7 @@
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
-                                            <a href="product.html">
+                                            <a href="{{url('product/view')}}/{{$item->id}}">
                                                 <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
                                                 <img class="secondary-img" src="{{asset('frontEnd/img/products/2.jpg')}}" alt="single-product">
                                             </a>
@@ -1496,7 +465,7 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <div class="pro-info">
-                                                <h4><a href="product.html">Work Lamp Silver Proin</a></h4>
+                                                <h4><a href="{{url('product/view')}}/{{$item->id}}">Work Lamp Silver Proin</a></h4>
                                                 <p><span class="price">$320.45</span></p>
                                             </div>
                                             <div class="pro-actions">
@@ -1516,7 +485,7 @@
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
-                                            <a href="product.html">
+                                            <a href="{{url('product/view')}}/{{$item->id}}">
                                                 <img class="primary-img" src="{{asset('frontEnd/img/products/3.jpg')}}" alt="single-product">
                                                 <img class="secondary-img" src="{{asset('frontEnd/img/products/4.jpg')}}" alt="single-product">
                                             </a>
@@ -1526,7 +495,7 @@
                                         <!-- Product Content Start -->
                                         <div class="pro-content">
                                             <div class="pro-info">
-                                                <h4><a href="product.html">Gpoly and Bark Eames Style</a></h4>
+                                                <h4><a href="{{url('product/view')}}/{{$item->id}}">Gpoly and Bark Eames Style</a></h4>
                                                 <p><span class="price">$150.30</span></p>
                                             </div>
                                             <div class="pro-actions">
@@ -1546,7 +515,7 @@
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
-                                            <a href="product.html">
+                                            <a href="{{url('product/view')}}/{{$item->id}}">
                                                 <img class="primary-img" src="{{asset('frontEnd/img/products/5.jpg')}}" alt="single-product">
                                                 <img class="secondary-img" src="{{asset('frontEnd/img/products/6.jpg')}}" alt="single-product">
                                             </a>
@@ -1725,688 +694,6 @@
                             </div>
                             <!-- Arrivals Product Activation End Here -->
                         </div>
-                        <!-- #fshion End Here -->
-                        <div id="kids2" class="tab-pane fade">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="best-seller-pro-active owl-carousel">
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/42.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/43.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Utensils and Knives Block</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/40.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/41.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Terra Xpress HE Cooking </a></h4>
-                                            <p><span class="price">$63.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/39.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/38.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Robert Welch Knife Block</a></h4>
-                                            <p><span class="price">$100.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/36.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/37.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$90.50</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/35.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/36.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Bark and  Vortex Side</a></h4>
-                                            <p><span class="price">$69.20</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/34.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/35.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Compary and Bark Vortex Shewe</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/32.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/33.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">kallery kids  weare</a></h4>
-                                            <p><span class="price">$98.50</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/1.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/7.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #fshion End Here -->
-                        <div id="beauty2" class="tab-pane fade">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="best-seller-pro-active owl-carousel">
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/43.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/42.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/41.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/39.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/5.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/6.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/9.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/10.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/11.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/12.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/3.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/4.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #beauty End Here -->
-                        <div id="electronics2" class="tab-pane fade show active">
-                            <!-- Arrivals Product Activation Start Here -->
-                            <div class="best-seller-pro-active owl-carousel">
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/17.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/18.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Flos Chasen S2 Suspension</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/19.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/20.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Country Squire Florist</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/20.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/21.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Concord Fabric Single</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/21.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/22.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Poly and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/23.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/24.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Gpoly and Bark Eames Style</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/24.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/25.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Vortex and Bark Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/26.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/27.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Bark and Vortex Side</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                                 <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{asset('frontEnd/img/products/28.jpg')}}" alt="single-product">
-                                            <img class="secondary-img" src="{{asset('frontEnd/img/products/29.jpg')}}" alt="single-product">
-                                        </a>
-                                        <a href="#" class="quick_view" data-toggle="modal" data-target="#myModal" title="Quick View"><i class="lnr lnr-magnifier"></i></a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <div class="pro-info">
-                                            <h4><a href="product.html">Electronic and Bark Vortex</a></h4>
-                                            <p><span class="price">$84.45</span></p>
-                                        </div>
-                                        <div class="pro-actions">
-                                            <div class="actions-primary">
-                                                <a href="cart.html" title="Add to Cart"> + Add To Cart</a>
-                                            </div>
-                                            <div class="actions-secondary">
-                                                <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
-                                                <a href="wishlist.html" title="WishList"><i class="lnr lnr-heart"></i> <span>Add to WishList</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                            </div>
-                            <!-- Arrivals Product Activation End Here -->
-                        </div>
-                        <!-- #electronics End Here -->
                     </div>
                     <!-- Tab Content End -->
                 </div>

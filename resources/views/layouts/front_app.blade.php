@@ -146,7 +146,7 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col-lg-3 col-md-12">
                             <div class="logo mb-all-30">
-                                <a href="index.html"><img src="{{asset('frontEnd/img/logo/logo.png')}}" alt="logo-image"></a>
+                                <a href="{{url('/')}}"><img width="214px" height="58px" src="{{asset('frontEnd/img/logo/logo.png')}}" alt="logo-image"></a>
                             </div>
                         </div>
                         <!-- Categorie Search Box Start Here -->
@@ -212,7 +212,7 @@
                                                 <!-- Cart Box Start -->
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
-                                                        <a href="#"><img src="{{asset('uploads/product')}}/{{App\product::findOrFail($item->product_id)->photo}}" alt="cart-image"></a>
+                                                        <a href="{{url('product/view')}}/{{App\product::findOrFail($item->product_id)->id}}"><img width="70px" height="70px" src="{{asset('uploads/product')}}/{{App\product::findOrFail($item->product_id)->photo}}" alt="cart-image"></a>
                                                         <span name="cartQuantity[]" class="pro-quantity cartQuantity">{{$item->product_quantity}}X</span>
                                                     </div>
                                                         @php
@@ -221,7 +221,7 @@
                                                     <div class="cart-content">
                                                         <h6><a href="product.html">{{App\product::findOrFail($item->product_id)->product_name}}</a></h6>
                                                         <span class="cart-price">{{App\product::findOrFail($item->product_id)->product_price}}</span>
-                                                        <span>Size: S</span>
+                                                        <span>Size: S , quantity : {{App\Cart::findOrFail($item->id)->product_quantity}}</span>
                                                         <span>Color: Yellow</span>
                                                     </div>
                                                     <a class="del-icone" href="{{url('deleteCart')}}/{{$item->id}}"><i class="ion-close"></i></a>

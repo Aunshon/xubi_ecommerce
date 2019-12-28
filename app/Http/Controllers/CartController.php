@@ -117,4 +117,9 @@ class CartController extends Controller
         }
         echo $data;
     }
+    function productview($product_id)
+    {
+        $product=product::findOrFail($product_id);
+        return view('customer.productView',compact('product'));
+    }
 }
